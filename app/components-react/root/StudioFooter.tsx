@@ -9,6 +9,7 @@ import styles from './StudioFooter.m.less';
 import PerformanceMetrics from '../shared/PerformanceMetrics';
 import TestWidgets from './TestWidgets';
 import StartStreamingButton from './StartStreamingButton';
+import StartIPFSStreamingButton from './StartIPFSStreamingButton';
 import NotificationsArea from './NotificationsArea';
 import { Tooltip } from 'antd';
 import { confirmAsync } from 'components-react/modals';
@@ -203,6 +204,7 @@ export default function StudioFooterComponent() {
           </div>
         )}
         {recordingModeEnabled && <RecordingButton />}
+        <StartIPFSStreamingButton />
       </div>
     </div>
   );

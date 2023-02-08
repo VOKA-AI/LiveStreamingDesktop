@@ -22,9 +22,10 @@ type TExecutor = () => [Promise<unknown>, () => void];
 const BUNDLE_NAMES = ['renderer.js', 'vendors~renderer.js'] as const;
 
 module.exports = async (basePath: string) => {
-  const cdnBase = `https://slobs-cdn.streamlabs.com/${process.env.SLOBS_VERSION}${
-    process.platform === 'darwin' ? '-mac' : ''
-  }/bundles/`;
+  //const cdnBase = `https://slobs-cdn.streamlabs.com/${process.env.SLOBS_VERSION}${
+  //  process.platform === 'darwin' ? '-mac' : ''
+  //}/bundles/`;
+  const cdnBase = ""
   const localBase = `file://${basePath}/bundles/`;
   const bundlesBaseDirectory = path.join(electron.app.getPath('userData'), 'bundles');
   const bundleDirectory = path.join(bundlesBaseDirectory, process.env.SLOBS_VERSION!);

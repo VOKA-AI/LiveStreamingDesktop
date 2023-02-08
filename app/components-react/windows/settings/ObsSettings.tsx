@@ -25,7 +25,6 @@ export function ObsSettings(p: { page: string }) {
  */
 export function ObsGenericSettingsForm() {
   const { settingsFormData, saveSettings } = useObsSettings();
-  return (<h1>obs generic setting</h1>)
   return (
     <ObsFormGroup value={settingsFormData} onChange={newSettings => saveSettings(newSettings)} />
   );

@@ -197,7 +197,7 @@ console.log(`Free: ${humanFileSize(os.freemem(), false)}`);
 console.log('=================================');
 
 app.on('ready', () => {
-  console.log("ready 1");
+  console.debug("Code Reading: ready 1");
   // Detect when running from an unwritable location like a DMG image (will break updater)
   if (process.platform === 'darwin') {
     try {
@@ -581,7 +581,7 @@ ipcMain.on('protocolLinkReady', () => {
 });
 
 app.on('ready', () => {
-  console.log("ready 2");
+  console.debug("Code Reading: ready 2");
   if (
     !process.argv.includes('--skip-update') &&
     (process.env.NODE_ENV === 'production' || process.env.SLOBS_FORCE_AUTO_UPDATE)
