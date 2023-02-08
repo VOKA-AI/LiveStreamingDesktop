@@ -219,6 +219,7 @@ function RecordingButton() {
     StreamingService.actions.toggleRecording();
   }
 
+  // Code Reading: this component contain recording button
   return (
     <>
       <RecordingTimer />

@@ -173,6 +173,7 @@ export class RecordingModeService extends PersistentStatefulService<IRecordingMo
   }
 
   addRecordingEntry(filename: string) {
+    console.debug("Code Reading: A new Recording has been completed. Click for more info")
     const timestamp = moment().format();
     const parsedFilename = byOS({ [OS.Mac]: filename, [OS.Windows]: filename.replace(/\//, '\\') });
     this.ADD_RECORDING_ENTRY(timestamp, parsedFilename);

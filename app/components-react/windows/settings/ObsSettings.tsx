@@ -12,6 +12,7 @@ export function ObsSettings(p: { page: string }) {
   const { setPage } = useObsSettings();
   setPage(p.page);
   const PageComponent = getPageComponent(p.page);
+  // Code Reading: Here is the obs settings that are node write in vue
   return (
     <div className={css.obsSettingsWindow}>
       <PageComponent />
@@ -24,6 +25,7 @@ export function ObsSettings(p: { page: string }) {
  */
 export function ObsGenericSettingsForm() {
   const { settingsFormData, saveSettings } = useObsSettings();
+  return (<h1>obs generic setting</h1>)
   return (
     <ObsFormGroup value={settingsFormData} onChange={newSettings => saveSettings(newSettings)} />
   );
