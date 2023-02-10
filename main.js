@@ -168,8 +168,6 @@ function flushNextLine() {
 }
 
 const os = require('os');
-const { cli } = require('webpack');
-const { async } = require('rxjs/internal/scheduler/async');
 const cpus = os.cpus();
 
 // Source: https://stackoverflow.com/questions/10420352/converting-file-size-in-bytes-to-human-readable-string/10420404
@@ -199,22 +197,6 @@ console.log(`Cores: ${cpus.length}`);
 console.log(`Memory: ${humanFileSize(os.totalmem(), false)}`);
 console.log(`Free: ${humanFileSize(os.freemem(), false)}`);
 console.log('=================================');
-
-async function ipfs_add(data) {
-  const ipfs_http_client = await import("ipfs-http-client");
-  const client = ipfs_http_client.create();
-  const {cid} = await client.add(data);
-  console.warn(cid);
-
-}
-global.ipfs_add = ipfs_add;
-
-app.on('ready', async () => {
-  console.warn("==========================================")
-  const ipfs_http_client = await import("ipfs-http-client");
-  global.ipfs_http_client = ipfs_http_client;
-  console.warn("==========================================")
-})
 
 app.on('ready', () => {
   console.debug("Code Reading: ready 1");

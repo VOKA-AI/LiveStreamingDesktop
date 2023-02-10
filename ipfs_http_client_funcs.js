@@ -8,10 +8,33 @@ class IPFS_HTTP_CLIENT {
     }
     async init(_host, _port, _protocol) {
         const IPFS_CLIENT = await import("ipfs-http-client");
-        //this.client = await IPFS_CLIENT.create(ipfs_addr);
         //this.client = await IPFS_CLIENT.create({url: 'http://43.206.127.22:5001/'});
-        this.client = await IPFS_CLIENT.create({host: '43.206.127.22', port:'5001', protocol: 'http'});
+        //this.client = await IPFS_CLIENT.create({host: '43.206.127.22', port:'5001', protocol: 'http'});
+        this.client = await IPFS_CLIENT.create({host: '127.0.0.1', port:'5001', protocol: 'http'});
         //this.client = await IPFS_CLIENT.create({host: _host, port:_port, protocol: _protocol});
+    }
+
+    async upload_and_publish(path) {
+        let stats = fs.statSync(path);
+        let cid = ""
+        if(stats.isDirectory()) {
+            cid = await this.upload_dir_non_recursive(path)
+        } else {
+            cid = await this.upload_file(path)
+        }
+        if(cid == "") {
+            return ""
+        }
+        const ipns_name = this.publish(cid)
+        return ipns_name
+    }
+    /*
+     * 将文件上传到IPFS，并返回其CID
+     */
+    async upload_file(file_path) {
+        let con = fs.readFileSync(file_path, {encoding: 'utf-8', flag:'r'})
+        const result = await this.client.add(con)
+        return result.cid.toString();
     }
 
     /*
@@ -51,42 +74,13 @@ class IPFS_HTTP_CLIENT {
         return res_cid.toString();
     }
 
+    /*
+     * 将IPNS指向cid，并返回IPNS的地址
+     */
     async publish(cid) {
         const res = await this.client.name.publish(cid)
-        console.log(res)
-        console.log(res.name)
+        return res.name
     }
 
-    async add(data) {
-        const fileDetails = [{
-            path: "test",
-            content: data
-        }, {
-            path: "test2",
-            content: data + "222"
-        }
-    ]
-        const options = {
-            wrapWithDirectory: true,
-            progress: (prog) => console.log(`received: ${prog}`)
-        }
-        const source = await this.client.addAll(fileDetails, options)
-        console.log(source)
-        try {
-            for await (const file of source) {
-                console.log(file)
-            }
-        } catch(err) {
-            console.error(err)
-        }
-    }
-
-    async ls(cid) {
-        for await (const file of this.client.ls("QmSX4GfH7bnfQYLdrSYGwqdFBeiFEZXQ4tb77xV3hKwY5V")) {
-            console.log(file.path)
-        }
-    }
-
-    add_dir
 }
 module.exports = {IPFS_HTTP_CLIENT}
