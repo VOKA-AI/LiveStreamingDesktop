@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import cx from 'classnames';
 import { EStreamingState } from 'services/streaming';
 import { EGlobalSyncStatus } from 'services/media-backup';
 import { $t } from 'services/i18n';
@@ -17,7 +16,11 @@ export default function StartIPFSStreamingButton() {
   }));
 
   function toggleRecording() {
-    StreamingService.actions.toggleRecording();
+    if(StreamingService.isRecording) {
+      ipfs_streaming.stopIPFSStreaming()
+    } else {
+      ipfs_streaming.startIPFSStreaming()
+    }
   }
 
   return (

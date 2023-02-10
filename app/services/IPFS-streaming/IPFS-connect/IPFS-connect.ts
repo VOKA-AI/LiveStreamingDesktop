@@ -10,7 +10,7 @@ import * as remote from '@electron/remote';
 
 export class IPFSConnect {
     constructor(ipfs_addr: string) {
-        this.connect_ipfs(ipfs_addr);
+        // this.connect_ipfs(ipfs_addr);
         //const client = await IPFS.create('/ip4/43.206.127.22/tcp/5001');
     }
 
@@ -34,6 +34,14 @@ export class IPFSConnect {
         //await remote.getGlobal("ipfs_http_client_funcs").ls("")
         console.warn("+++++++++++++++++++++++++++++++++++++++++++++")
         
+    }
+
+    async upload_and_publish(path: string) {
+        const ipns_name = await remote.getGlobal("ipfs_http_client_funcs").upload_and_publish(path);
+        if(ipns_name.length > 0) {
+            console.log(ipns_name);
+        }
+        return ipns_name
     }
 
 }

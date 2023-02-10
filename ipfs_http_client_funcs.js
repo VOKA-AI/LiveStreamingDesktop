@@ -25,14 +25,15 @@ class IPFS_HTTP_CLIENT {
         if(cid == "") {
             return ""
         }
-        const ipns_name = this.publish(cid)
+        const ipns_name = await this.publish(cid)
         return ipns_name
     }
     /*
      * 将文件上传到IPFS，并返回其CID
      */
     async upload_file(file_path) {
-        let con = fs.readFileSync(file_path, {encoding: 'utf-8', flag:'r'})
+        //let con = fs.readFileSync(file_path, {encoding: 'utf-8', flag:'r'}) // 上传视频文件是好像不行, 不能正常播放
+        let con = fs.readFileSync(file_path) // binary
         const result = await this.client.add(con)
         return result.cid.toString();
     }
@@ -53,7 +54,8 @@ class IPFS_HTTP_CLIENT {
                 let tempPath = path.join(dir_path, item)
                 let stats = fs.statSync(tempPath);
                 if(!stats.isDirectory()) {
-                    let con = fs.readFileSync(tempPath, {encoding: 'utf-8', flag:'r'})
+                    // let con = fs.readFileSync(tempPath, {encoding: 'utf-8', flag:'r'})
+                    let con = fs.readFileSync(tempPath)
                     fileDetails.push({path: item, content: con})
                 }
             })
