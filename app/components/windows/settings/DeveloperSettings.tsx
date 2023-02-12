@@ -72,7 +72,7 @@ export default class DeveloperSettings extends Vue {
       <div>
         {this.appDeveloperMode && (
           <div class="section">
-            <p v-if="true">Code Reading: Here is the Developer Settings</p>
+            {/* <p v-if="true">Code Reading: Here is the Developer Settings</p> */}
             <AppPlatformDeveloperSettings />
           </div>
         )}

@@ -13,7 +13,7 @@
         v-if="formGroup.nameSubCategory !== 'Untitled'"
         @click="toggleGroup(groupIndex);"
       >
-      <p v-if=tue>Code Reading: here is the sub title of setting window</p>
+      <!-- <p v-if=true>Code Reading: here is the sub title of setting window</p> -->
         <i class="fa fa-plus section-title__icon" v-show="collapsedGroups[groupIndex]"></i>
         <i class="fa fa-minus section-title__icon" v-show="!collapsedGroups[groupIndex]"></i>
         {{ $t(formGroup.nameSubCategory) }}
