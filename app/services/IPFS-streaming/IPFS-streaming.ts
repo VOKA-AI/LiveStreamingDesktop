@@ -2,32 +2,37 @@ import { SettingsService } from "../settings";
 import { IPFSConnect } from "./IPFS-connect";
 import { Inject } from '../core/injector';
 import { OutputSettingsService } from "../settings";
+import { EFileFormat } from "../settings/output/output-settings";
 import { StreamingService } from "app-services";
 import { Stream } from "stream";
 import path from "path";
 import * as remote from '@electron/remote';
+import fs from 'fs';
 export class IPFSStreaming {
     @Inject() settingsService: SettingsService;
     @Inject() outputSettingsService: OutputSettingsService;
     @Inject() streamingService: StreamingService;
     ipfs_conn: IPFSConnect;
     origin_path: string;
-    origin_format: any;
+    origin_format: EFileFormat;
     origin_isFilenameWithoutSpace: boolean;
     IPFS_upload_flag: boolean;
+
+    stream_tmp_dir: string;
     constructor(ipfs_addr: string) {
         this.ipfs_conn = new IPFSConnect(ipfs_addr);
         this.origin_path = this.outputSettingsService.getSettings().recording.path;
         this.origin_format = this.outputSettingsService.getSettings().recording.format;
         this.origin_isFilenameWithoutSpace = this.outputSettingsService.getSettings().recording.isFileNameWithoutSpace;
         this.IPFS_upload_flag = false;
+        this.stream_tmp_dir = path.join(remote.app.getPath('appData'),"ipfs_stream_tmp");
     }
 
     // 暂时修改OBS配置，方便录制HLS流，并放在指定临时文件夹
     modifySettingsTemporarily() {
         this.settingsService.setSettingValue('Output', 'RecFormat', 'm3u8');
         //this.settingsService.setSettingValue('Output', 'RecQuality', 'HQ'); //Small < HQ < Lossless
-        this.settingsService.setSettingValue('Output', 'FilePath', path.join(remote.app.getPath('appData'),"ipfs_stream_tmp"));
+        this.settingsService.setSettingValue('Output', 'FilePath', this.stream_tmp_dir);
         this.settingsService.setSettingValue('Output', 'FileNameWithoutSpace', true);
     }
 
@@ -57,7 +62,15 @@ export class IPFSStreaming {
     startIPFSStreaming() {
         console.log("start IPFS streaming")
         // 如果文件夹不存在，需要创建，创建失败需要提示用户（健壮性）
-        console.log(path.join(remote.app.getPath('appData'),"ipfs_stream_tmp"))
+
+        try {
+            fs.mkdirSync(this.stream_tmp_dir, {recursive: true});
+        } catch(e) {
+            // create directory failed
+            if(e.code !== "EEXIST") {
+                // and it not existing
+            }
+        }
         this.modifySettingsTemporarily()
         this.streamingService.toggleRecording()
         this.IPFS_upload_flag = true;
@@ -68,7 +81,12 @@ export class IPFSStreaming {
         console.log("stop IPFS streaming")
         this.streamingService.toggleRecording()
         this.resetSettings()
-        this.IPFSUploadPublish(path.join(remote.app.getPath('appData'),"ipfs_stream_tmp"), 5000);
+        try {
+            fs.rmSync(this.stream_tmp_dir, {recursive: true, force: true});
+        } catch(e) {
+            // delete tmprary directory failed
+            console.log(e)
+        }
         this.IPFS_upload_flag = false; //这样无法停止IPFSUploadPublish函数
     }
 

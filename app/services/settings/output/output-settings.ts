@@ -40,7 +40,7 @@ export enum EEncoderFamily {
   amd = 'amd',
 }
 
-enum EFileFormat {
+export enum EFileFormat {
   flv = 'flv',
   mp4 = 'mp4',
   mov = 'mov',
