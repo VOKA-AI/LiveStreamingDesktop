@@ -13,11 +13,13 @@ export class IPFSStreaming {
     ipfs_conn: IPFSConnect;
     origin_path: string;
     origin_format: any;
+    origin_isFilenameWithoutSpace: boolean;
     IPFS_upload_flag: boolean;
     constructor(ipfs_addr: string) {
         this.ipfs_conn = new IPFSConnect(ipfs_addr);
         this.origin_path = this.outputSettingsService.getSettings().recording.path;
         this.origin_format = this.outputSettingsService.getSettings().recording.format;
+        this.origin_isFilenameWithoutSpace = this.outputSettingsService.getSettings().recording.isFileNameWithoutSpace;
         this.IPFS_upload_flag = false;
     }
 
@@ -26,13 +28,16 @@ export class IPFSStreaming {
         this.settingsService.setSettingValue('Output', 'RecFormat', 'm3u8');
         //this.settingsService.setSettingValue('Output', 'RecQuality', 'HQ'); //Small < HQ < Lossless
         this.settingsService.setSettingValue('Output', 'FilePath', path.join(remote.app.getPath('appData'),"ipfs_stream_tmp"));
+        this.settingsService.setSettingValue('Output', 'FileNameWithoutSpace', true);
     }
 
     // 完成后，恢复原来的OBS配置
+    // TODO： 除了主动点击停止直播，用户关闭App时，也应该调用resetSettings
     private resetSettings() {
         this.settingsService.setSettingValue('Output', 'RecFormat', this.origin_format);
         //this.settingsService.setSettingValue('Output', 'RecQuality', 'HQ'); //Small < HQ < Lossless
         this.settingsService.setSettingValue('Output', 'FilePath', this.origin_path);
+        this.settingsService.setSettingValue('Output', 'FileNameWithoutSpace', this.origin_isFilenameWithoutSpace);
     }
 
     private async IPFSUploadPublish(_path: string, time_interval_ms: number) {
