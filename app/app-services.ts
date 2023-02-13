@@ -117,6 +117,8 @@ export { EmoteWallService } from 'services/widgets/settings/emote-wall';
 export { ChatHighlightService } from 'services/widgets/settings/chat-highlight';
 export { SuperchatGoalService } from 'services/widgets/settings/superchat-goal';
 
+export {IPFSStreamingService } from 'services/IPFS-streaming'
+
 import { AppService } from './services/app';
 import { WindowsService } from './services/windows';
 import { CustomizationService } from './services/customization';
@@ -182,6 +184,7 @@ import { GuestCamService } from 'services/guest-cam';
 import { SideNavService } from './services/side-nav';
 import { VideoSettingsService } from 'services/settings-v2/video';
 import { SettingsManagerService } from 'services/settings-manager';
+import { IPFSStreamingService } from 'services/IPFS-streaming';
 
 export const AppServices = {
   AppService,
@@ -250,4 +253,5 @@ export const AppServices = {
   SideNavService,
   VideoSettingsService,
   SettingsManagerService,
+  IPFSStreamingService,
 };

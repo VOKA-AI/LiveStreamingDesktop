@@ -5,11 +5,11 @@ import { $t } from 'services/i18n';
 import { useVuex } from '../hooks';
 import { Services } from '../service-provider';
 import * as remote from '@electron/remote';
-import { IPFSStreaming } from 'services/IPFS-streaming'
 
 export default function StartIPFSStreamingButton() {
-  const ipfs_streaming = new IPFSStreaming('/ip4/43.206.127.22/tcp/5001');
-  const { StreamingService } = Services;
+  // 每次点击，StartIPFSStreamingButton()这个function好像都会被调用一边
+  // 这个问题导致我在IPFSStreaming类中的定时器总也无法取消，浪费了不少时间
+  const { StreamingService, IPFSStreamingService } = Services;
   const { isRecording, recordingStatus } = useVuex(() => ({
     isRecording: StreamingService.views.isRecording,
     recordingStatus: StreamingService.state.recordingStatus,
@@ -17,9 +17,9 @@ export default function StartIPFSStreamingButton() {
 
   function toggleRecording() {
     if(StreamingService.isRecording) {
-      ipfs_streaming.stopIPFSStreaming()
+      IPFSStreamingService.actions.stopIPFSStreaming();
     } else {
-      ipfs_streaming.startIPFSStreaming()
+      IPFSStreamingService.actions.startIPFSStreaming()
     }
   }
 

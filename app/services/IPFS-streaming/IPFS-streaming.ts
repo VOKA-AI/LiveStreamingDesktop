@@ -4,90 +4,95 @@ import { Inject } from '../core/injector';
 import { OutputSettingsService } from "../settings";
 import { EFileFormat } from "../settings/output/output-settings";
 import { StreamingService } from "app-services";
-import { Stream } from "stream";
 import path from "path";
 import * as remote from '@electron/remote';
 import fs from 'fs';
-export class IPFSStreaming {
+import { Service } from 'services/core/service';
+
+const IPFS_HOST_ADDRESS = "/ip4/43.206.127.22/tcp/5001";
+const IPFS_UPLOAD_INTERVAL = 5000; // ms
+export class IPFSStreamingService extends Service {
     @Inject() settingsService: SettingsService;
     @Inject() outputSettingsService: OutputSettingsService;
     @Inject() streamingService: StreamingService;
-    ipfs_conn: IPFSConnect;
-    origin_path: string;
-    origin_format: EFileFormat;
-    origin_isFilenameWithoutSpace: boolean;
-    IPFS_upload_flag: boolean;
 
-    stream_tmp_dir: string;
-    constructor(ipfs_addr: string) {
-        this.ipfs_conn = new IPFSConnect(ipfs_addr);
-        this.origin_path = this.outputSettingsService.getSettings().recording.path;
-        this.origin_format = this.outputSettingsService.getSettings().recording.format;
-        this.origin_isFilenameWithoutSpace = this.outputSettingsService.getSettings().recording.isFileNameWithoutSpace;
-        this.IPFS_upload_flag = false;
-        this.stream_tmp_dir = path.join(remote.app.getPath('appData'),"ipfs_stream_tmp");
+    ipfs_conn: IPFSConnect;
+
+    obs_origin_path: string;
+    obs_origin_format: EFileFormat;
+    obs_origin_isFilenameWithoutSpace: boolean;
+    obs_stream_tmp_dir: string;
+
+    ipfs_upload_timer: number | null;
+    ipfs_upload_promise: Promise<string>;
+
+    init() {
+        this.ipfs_conn = new IPFSConnect(IPFS_HOST_ADDRESS);
+        this.obs_origin_path = this.outputSettingsService.getSettings().recording.path;
+        this.obs_origin_format = this.outputSettingsService.getSettings().recording.format;
+        this.obs_origin_isFilenameWithoutSpace = this.outputSettingsService.getSettings().recording.isFileNameWithoutSpace;
+        this.obs_stream_tmp_dir = path.join(remote.app.getPath('appData'),"ipfs_stream_tmp");
     }
 
     // 暂时修改OBS配置，方便录制HLS流，并放在指定临时文件夹
     modifySettingsTemporarily() {
         this.settingsService.setSettingValue('Output', 'RecFormat', 'm3u8');
         //this.settingsService.setSettingValue('Output', 'RecQuality', 'HQ'); //Small < HQ < Lossless
-        this.settingsService.setSettingValue('Output', 'FilePath', this.stream_tmp_dir);
+        this.settingsService.setSettingValue('Output', 'FilePath', this.obs_stream_tmp_dir);
         this.settingsService.setSettingValue('Output', 'FileNameWithoutSpace', true);
     }
 
     // 完成后，恢复原来的OBS配置
     // TODO： 除了主动点击停止直播，用户关闭App时，也应该调用resetSettings
     private resetSettings() {
-        this.settingsService.setSettingValue('Output', 'RecFormat', this.origin_format);
+        this.settingsService.setSettingValue('Output', 'RecFormat', this.obs_origin_format);
         //this.settingsService.setSettingValue('Output', 'RecQuality', 'HQ'); //Small < HQ < Lossless
-        this.settingsService.setSettingValue('Output', 'FilePath', this.origin_path);
-        this.settingsService.setSettingValue('Output', 'FileNameWithoutSpace', this.origin_isFilenameWithoutSpace);
+        this.settingsService.setSettingValue('Output', 'FilePath', this.obs_origin_path);
+        this.settingsService.setSettingValue('Output', 'FileNameWithoutSpace', this.obs_origin_isFilenameWithoutSpace);
     }
 
-    private async IPFSUploadPublish(_path: string, time_interval_ms: number) {
-        console.log("000000000000")
-        console.log("uploading " + _path);
-        if(!this.IPFS_upload_flag) {
-            return;
-        }
-        const ipns_name =await this.ipfs_conn.upload_and_publish(path.join(remote.app.getPath('appData'),"ipfs_stream_tmp"))
-        console.log(ipns_name)
-        console.log("000000000000")
-        setTimeout(() => {
-            this.IPFSUploadPublish(_path, time_interval_ms);
-        }, time_interval_ms);
-    }
+    private async IPFSUploadPublish(): Promise<string> {
+        const ipns_name = await this.ipfs_conn.upload_and_publish(this.obs_stream_tmp_dir)
+        return ipns_name
+}
 
     startIPFSStreaming() {
-        console.log("start IPFS streaming")
         // 如果文件夹不存在，需要创建，创建失败需要提示用户（健壮性）
-
         try {
-            fs.mkdirSync(this.stream_tmp_dir, {recursive: true});
+            fs.mkdirSync(this.obs_stream_tmp_dir, {recursive: true});
         } catch(e) {
             // create directory failed
             if(e.code !== "EEXIST") {
                 // and it not existing
+                alert("create tmprary directory failed, cannot start IPFS Streaming");
+                return;
             }
         }
         this.modifySettingsTemporarily()
         this.streamingService.toggleRecording()
-        this.IPFS_upload_flag = true;
-        this.IPFSUploadPublish(path.join(remote.app.getPath('appData'),"ipfs_stream_tmp"), 5000);
+        this.ipfs_upload_timer = window.setInterval(async () => {
+            this.ipfs_upload_promise = this.IPFSUploadPublish()
+        }, IPFS_UPLOAD_INTERVAL);
     }
 
-    stopIPFSStreaming() {
-        console.log("stop IPFS streaming")
+    async stopIPFSStreaming() {
+        if(this.ipfs_upload_timer) {
+            clearInterval(this.ipfs_upload_timer);
+        }
+        this.ipfs_upload_timer = null
+        if (this.ipfs_upload_promise) {
+            const last_ipns_name = await this.ipfs_upload_promise;
+            console.log("8888888888")
+            console.warn(last_ipns_name);
+            console.log("8888888888")
+        }
         this.streamingService.toggleRecording()
         this.resetSettings()
         try {
-            fs.rmSync(this.stream_tmp_dir, {recursive: true, force: true});
+            fs.rmSync(this.obs_stream_tmp_dir, {recursive: true, force: true});
         } catch(e) {
             // delete tmprary directory failed
             console.log(e)
         }
-        this.IPFS_upload_flag = false; //这样无法停止IPFSUploadPublish函数
     }
-
 }
