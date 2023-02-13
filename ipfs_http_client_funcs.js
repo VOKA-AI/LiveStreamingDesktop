@@ -9,8 +9,8 @@ class IPFS_HTTP_CLIENT {
     async init(_host, _port, _protocol) {
         const IPFS_CLIENT = await import("ipfs-http-client");
         //this.client = await IPFS_CLIENT.create({url: 'http://43.206.127.22:5001/'});
-        //this.client = await IPFS_CLIENT.create({host: '43.206.127.22', port:'5001', protocol: 'http'});
-        this.client = await IPFS_CLIENT.create({host: '127.0.0.1', port:'5001', protocol: 'http'});
+        this.client = await IPFS_CLIENT.create({host: '43.206.127.22', port:'5001', protocol: 'http'});
+        //this.client = await IPFS_CLIENT.create({host: '127.0.0.1', port:'5001', protocol: 'http'});
         //this.client = await IPFS_CLIENT.create({host: _host, port:_port, protocol: _protocol});
     }
 

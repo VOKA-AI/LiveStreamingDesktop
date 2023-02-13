@@ -266,9 +266,6 @@ export class SettingsService extends StatefulService<ISettingsServiceState> {
     // load configuration from nodeObs to state
     const settingsFormData = {};
     this.getCategories().forEach(categoryName => {
-      if(categoryName === "Output") {
-        console.warn(this.fetchSettingsFromObs("Output"));
-      }
       settingsFormData[categoryName] = this.fetchSettingsFromObs(categoryName);
     });
     this.SET_SETTINGS(settingsFormData);
