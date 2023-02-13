@@ -2,16 +2,18 @@ const fs = require('fs');
 const path = require('path');
 const {app} = require('electron');
 
+const IPFS_HOST = "43.206.127.22"
+const IPFS_PORT = "5001"
+const IPFS_POTOCOL = "http"
+
 class IPFS_HTTP_CLIENT {
     constructor(host, port, protocol) {
         this.init(host, port, protocol);
     }
+
     async init(_host, _port, _protocol) {
         const IPFS_CLIENT = await import("ipfs-http-client");
-        //this.client = await IPFS_CLIENT.create({url: 'http://43.206.127.22:5001/'});
-        this.client = await IPFS_CLIENT.create({host: '43.206.127.22', port:'5001', protocol: 'http'});
-        //this.client = await IPFS_CLIENT.create({host: '127.0.0.1', port:'5001', protocol: 'http'});
-        //this.client = await IPFS_CLIENT.create({host: _host, port:_port, protocol: _protocol});
+        this.client = await IPFS_CLIENT.create({host: IPFS_HOST, port:IPFS_PORT, protocol: IPFS_POTOCOL});
     }
 
     async upload_and_publish(path) {
@@ -38,6 +40,14 @@ class IPFS_HTTP_CLIENT {
         return result.cid.toString();
     }
 
+    async append_file2dir(target_ipfs_dir_cid, file) {
+
+    }
+
+    async modify_file_in_dir(target_ipfs_dir_cid, target_ipfs_file_cid, new_file_content) {
+
+    }
+
     /*
      * 上传文件夹中所有文件到IPFS，如果该文件夹中包含其他文件夹，则忽略
      * 返回文件夹的cid
@@ -45,6 +55,7 @@ class IPFS_HTTP_CLIENT {
     async upload_dir_non_recursive(dir_path) {
         let fileDetails = []
         const options = {
+            pin: true,
             wrapWithDirectory: true,
             //progress: (prog) => console.log(`received: ${prog}`)
         }
@@ -80,7 +91,10 @@ class IPFS_HTTP_CLIENT {
      * 将IPNS指向cid，并返回IPNS的地址
      */
     async publish(cid) {
-        const res = await this.client.name.publish(cid)
+        const options = {
+            allowOffline: true,
+        }
+        const res = await this.client.name.publish(cid, options)
         return res.name
     }
 

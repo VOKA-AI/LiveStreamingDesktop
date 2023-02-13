@@ -9,11 +9,6 @@
 import * as remote from '@electron/remote';
 
 export class IPFSConnect {
-    constructor(ipfs_addr: string) {
-        // this.connect_ipfs(ipfs_addr);
-        //const client = await IPFS.create('/ip4/43.206.127.22/tcp/5001');
-    }
-
     async connect_ipfs(ipfs_addr: string) {
         console.warn("+++++++++++++++++++++++++++++++++++++++++++++")
         //const IPFS_CLIENT = await import('ipfs-http-client');

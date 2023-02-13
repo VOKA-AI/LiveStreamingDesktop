@@ -9,7 +9,6 @@ import * as remote from '@electron/remote';
 import fs from 'fs';
 import { Service } from 'services/core/service';
 
-const IPFS_HOST_ADDRESS = "/ip4/43.206.127.22/tcp/5001";
 const IPFS_UPLOAD_INTERVAL = 5000; // ms
 const IPFS_STREAM_TMP_DIR = path.join(remote.app.getPath('appData'), "ipfs_stream_tmp");
 
@@ -34,7 +33,7 @@ export class IPFSStreamingService extends Service {
     ipfs_upload_promise: Promise<string>;
 
     init() {
-        this.ipfs_conn = new IPFSConnect(IPFS_HOST_ADDRESS);
+        this.ipfs_conn = new IPFSConnect();
         this.update_origin_obs_settings()
     }
 
