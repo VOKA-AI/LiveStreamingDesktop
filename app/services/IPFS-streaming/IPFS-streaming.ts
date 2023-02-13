@@ -11,6 +11,14 @@ import { Service } from 'services/core/service';
 
 const IPFS_HOST_ADDRESS = "/ip4/43.206.127.22/tcp/5001";
 const IPFS_UPLOAD_INTERVAL = 5000; // ms
+const IPFS_STREAM_TMP_DIR = path.join(remote.app.getPath('appData'), "ipfs_stream_tmp");
+
+remote.getCurrentWindow().on('close', () => {
+    IPFSStreamingService.instance.resetSettings();
+    //await IPFSStreamingService.instance.IPFSUploadPublish();
+    //await IPFSStreamingService.instance.stopIPFSStreaming();
+})
+
 export class IPFSStreamingService extends Service {
     @Inject() settingsService: SettingsService;
     @Inject() outputSettingsService: OutputSettingsService;
@@ -21,30 +29,32 @@ export class IPFSStreamingService extends Service {
     obs_origin_path: string;
     obs_origin_format: EFileFormat;
     obs_origin_isFilenameWithoutSpace: boolean;
-    obs_stream_tmp_dir: string;
 
     ipfs_upload_timer: number | null;
     ipfs_upload_promise: Promise<string>;
 
     init() {
         this.ipfs_conn = new IPFSConnect(IPFS_HOST_ADDRESS);
+        this.update_origin_obs_settings()
+    }
+
+    private update_origin_obs_settings() {
         this.obs_origin_path = this.outputSettingsService.getSettings().recording.path;
         this.obs_origin_format = this.outputSettingsService.getSettings().recording.format;
         this.obs_origin_isFilenameWithoutSpace = this.outputSettingsService.getSettings().recording.isFileNameWithoutSpace;
-        this.obs_stream_tmp_dir = path.join(remote.app.getPath('appData'),"ipfs_stream_tmp");
     }
 
     // 暂时修改OBS配置，方便录制HLS流，并放在指定临时文件夹
-    modifySettingsTemporarily() {
+    private modifySettingsTemporarily() {
+        this.update_origin_obs_settings()
         this.settingsService.setSettingValue('Output', 'RecFormat', 'm3u8');
         //this.settingsService.setSettingValue('Output', 'RecQuality', 'HQ'); //Small < HQ < Lossless
-        this.settingsService.setSettingValue('Output', 'FilePath', this.obs_stream_tmp_dir);
+        this.settingsService.setSettingValue('Output', 'FilePath', IPFS_STREAM_TMP_DIR);
         this.settingsService.setSettingValue('Output', 'FileNameWithoutSpace', true);
     }
 
     // 完成后，恢复原来的OBS配置
-    // TODO： 除了主动点击停止直播，用户关闭App时，也应该调用resetSettings
-    private resetSettings() {
+    resetSettings() {
         this.settingsService.setSettingValue('Output', 'RecFormat', this.obs_origin_format);
         //this.settingsService.setSettingValue('Output', 'RecQuality', 'HQ'); //Small < HQ < Lossless
         this.settingsService.setSettingValue('Output', 'FilePath', this.obs_origin_path);
@@ -52,14 +62,13 @@ export class IPFSStreamingService extends Service {
     }
 
     private async IPFSUploadPublish(): Promise<string> {
-        const ipns_name = await this.ipfs_conn.upload_and_publish(this.obs_stream_tmp_dir)
-        return ipns_name
-}
+        return this.ipfs_conn.upload_and_publish(IPFS_STREAM_TMP_DIR)
+    }
 
     startIPFSStreaming() {
         // 如果文件夹不存在，需要创建，创建失败需要提示用户（健壮性）
         try {
-            fs.mkdirSync(this.obs_stream_tmp_dir, {recursive: true});
+            fs.mkdirSync(IPFS_STREAM_TMP_DIR, {recursive: true});
         } catch(e) {
             // create directory failed
             if(e.code !== "EEXIST") {
@@ -82,17 +91,15 @@ export class IPFSStreamingService extends Service {
         this.ipfs_upload_timer = null
         if (this.ipfs_upload_promise) {
             const last_ipns_name = await this.ipfs_upload_promise;
-            console.log("8888888888")
-            console.warn(last_ipns_name);
-            console.log("8888888888")
         }
         this.streamingService.toggleRecording()
         this.resetSettings()
         try {
-            fs.rmSync(this.obs_stream_tmp_dir, {recursive: true, force: true});
+            fs.rmSync(IPFS_STREAM_TMP_DIR, {recursive: true, force: true});
         } catch(e) {
             // delete tmprary directory failed
             console.log(e)
         }
+        // notice user that a directory delete(with out interactive)
     }
 }
