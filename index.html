@@ -23,8 +23,9 @@
         window.addEventListener('error', window['_startupErrorHandler']);
       }
     </script>
-    <script defer src="https://slobs-cdn.streamlabs.com/bundles/vendors~renderer.js" onerror="window['_startupErrorHandler'] && window['_startupErrorHandler']()"></script>
-    <script defer src="https://slobs-cdn.streamlabs.com/bundles/renderer.js"  onerror="window['_startupErrorHandler'] && window['_startupErrorHandler']()"></script>
+    <script defer src="bundles/vendors~renderer.js" onerror="window['_startupErrorHandler'] && window['_startupErrorHandler']()"></script>
+    <!-- <script defer src="https://slobs-cdn.streamlabs.com/bundles/renderer.js"  onerror="window['_startupErrorHandler'] && window['_startupErrorHandler']()"></script> -->
+    <script defer src="bundles/renderer.js"  onerror="window['_startupErrorHandler'] && window['_startupErrorHandler']()"></script>
   </head>
   <body style="background-color: transparent;">
     <div id="app"></div>

@@ -7,6 +7,7 @@
     <UltraIcon v-if="ultra" class="ultra-icon" @click="onIconClickHandler" />
     <i v-if="ico" :class="ico" @click="onIconClickHandler" :style="icoStyles"></i>
     <div class="nav-item__content">
+      <!-- <p v-if=true>Code Reading: Here is menu side-bar title of settings</p> -->
       <slot></slot>
       <div v-if="expanded" class="nav-item__children">
         <slot name="children"></slot>

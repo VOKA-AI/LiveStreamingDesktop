@@ -888,7 +888,7 @@ export class StreamingService
 
   private handleOBSOutputSignal(info: IOBSOutputSignalInfo) {
     console.debug('OBS Output signal: ', info);
-
+    console.debug('Code Reading: OBS Output signal: ', info);
     const time = new Date().toISOString();
 
     if (info.type === EOBSOutputType.Streaming) {

@@ -40,7 +40,7 @@ export enum EEncoderFamily {
   amd = 'amd',
 }
 
-enum EFileFormat {
+export enum EFileFormat {
   flv = 'flv',
   mp4 = 'mp4',
   mov = 'mov',
@@ -113,6 +113,7 @@ export interface IRecordingEncoderSettings extends IEncoderSettings {
   path: string;
   format: EFileFormat;
   isSameAsStream: boolean;
+  isFileNameWithoutSpace: boolean;
 }
 
 export interface IStreamingEncoderSettings extends IEncoderSettings {
@@ -309,6 +310,7 @@ export class OutputSettingsService extends Service {
     ) as EFileFormat;
 
     const recEncoder = this.settingsService.findSettingValue(output, 'Recording', 'RecEncoder');
+    const isFileNameWithoutSpace = this.settingsService.findSettingValue(output, 'Recording', 'FileNameWithoutSpace');
     let encoder = obsEncoderToEncoderFamily(recEncoder) as EEncoderFamily;
 
     const outputResolution: string =
@@ -358,6 +360,7 @@ export class OutputSettingsService extends Service {
       bitrate,
       rateControl,
       isSameAsStream,
+      isFileNameWithoutSpace,
     };
   }
 

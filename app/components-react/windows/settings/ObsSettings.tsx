@@ -12,6 +12,7 @@ export function ObsSettings(p: { page: string }) {
   const { setPage } = useObsSettings();
   setPage(p.page);
   const PageComponent = getPageComponent(p.page);
+  // Code Reading: Here is the obs settings that are node write in vue
   return (
     <div className={css.obsSettingsWindow}>
       <PageComponent />

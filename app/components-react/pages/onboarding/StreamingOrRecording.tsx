@@ -12,7 +12,7 @@ import { useModule } from 'slap';
 export function StreamingOrRecording() {
   const { next, setRecordingMode } = useModule(OnboardingModule);
   const [active, setActive] = useState<'streaming' | 'recording' | null>(null);
-
+  console.debug("Code Reading: streaming or Recording")
   async function onContinue() {
     if (!active) return;
 

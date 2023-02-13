@@ -76,6 +76,7 @@ export default function SideNav() {
     }
   }, [sider]);
 
+  // Code Reading: Here is the Side nav bar in the main window
   return (
     <Layout hasSider className="side-nav">
       <Sider

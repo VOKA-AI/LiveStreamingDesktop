@@ -34,6 +34,8 @@ const {
 const path = require('path');
 const rimraf = require('rimraf');
 const remote = require('@electron/remote/main');
+const {IPFS_HTTP_CLIENT} = require('./ipfs_http_client_funcs')
+global.ipfs_http_client_funcs = new IPFS_HTTP_CLIENT('43.206.127.22', '5001', 'http');
 
 // Game overlay is Windows only
 let overlay;
@@ -197,6 +199,7 @@ console.log(`Free: ${humanFileSize(os.freemem(), false)}`);
 console.log('=================================');
 
 app.on('ready', () => {
+  console.debug("Code Reading: ready 1");
   // Detect when running from an unwritable location like a DMG image (will break updater)
   if (process.platform === 'darwin') {
     try {
@@ -580,6 +583,7 @@ ipcMain.on('protocolLinkReady', () => {
 });
 
 app.on('ready', () => {
+  console.debug("Code Reading: ready 2");
   if (
     !process.argv.includes('--skip-update') &&
     (process.env.NODE_ENV === 'production' || process.env.SLOBS_FORCE_AUTO_UPDATE)

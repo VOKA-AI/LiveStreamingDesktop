@@ -301,6 +301,10 @@ export class SettingsService extends StatefulService<ISettingsServiceState> {
 
   getCategories(): string[] {
     let categories: string[] = obs.NodeObs.OBS_settings_getListCategories();
+    console.debug("------------------------");
+    console.debug("Code Reading: get categories from obs-studio-node")
+    console.debug(categories);
+    console.debug("------------------------");
     // insert 'Multistreaming' after 'General'
     categories.splice(1, 0, 'Multistreaming');
     categories = categories.concat([
@@ -476,6 +480,10 @@ export class SettingsService extends StatefulService<ISettingsServiceState> {
       }
     }
 
+    console.debug("###############")
+    console.debug("Code Reading: save settings to obs-studio-node");
+    console.debug(dataToSave);
+    console.debug("###############")
     obs.NodeObs.OBS_settings_saveSettings(categoryName, dataToSave);
     this.loadSettingsIntoStore();
   }

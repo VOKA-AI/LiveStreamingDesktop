@@ -111,6 +111,10 @@ export default class Settings extends Vue {
   }
 
   get settingsData() {
+    console.debug("===================================");
+    console.debug("Code Reading: settings vue get category name from setting service, which get this info from obs-stuio-node")
+    console.debug(this.settingsService.state[this.categoryName]?.formData ?? [])
+    console.debug("===================================");
     return this.settingsService.state[this.categoryName]?.formData ?? [];
   }
 
