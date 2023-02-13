@@ -16,6 +16,7 @@ const base = {
     'updater/index.html',
     'index.html',
     'main.js',
+    'ipfs_http_client_funcs.js',
     'obs-api',
     'updater/mac/index.html',
     'updater/mac/Updater.js',
