@@ -4,6 +4,8 @@ const base = {
   appId: 'com.streamlabs.slobs',
   productName: 'Streamlabs Desktop',
   icon: 'media/images/icon.ico',
+  //npmRebuild: false,
+  asar: false,
   files: [
     'bundles',
     '!bundles/*.js.map',
