@@ -568,6 +568,7 @@ export class WindowsService extends StatefulService<IWindowsState> {
 
   @mutation()
   private UPDATE_HIDE_STYLE_BLOCKERS(windowId: string, hideStyleBlockers: boolean) {
+    // 这里完全设为true的话，不会遮挡WalletConnect的弹出，但是同时也会导致OBS Display变为纯黑色
     this.state[windowId].hideStyleBlockers = hideStyleBlockers;
   }
 
