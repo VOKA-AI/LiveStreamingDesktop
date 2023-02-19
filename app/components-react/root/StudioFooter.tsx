@@ -14,6 +14,7 @@ import NotificationsArea from './NotificationsArea';
 import { Tooltip } from 'antd';
 import { confirmAsync } from 'components-react/modals';
 import { useModule } from 'slap';
+import { Web3Button } from "@web3modal/react"
 
 export default function StudioFooterComponent() {
   const {
@@ -205,6 +206,7 @@ export default function StudioFooterComponent() {
         )}
         {recordingModeEnabled && <RecordingButton />}
         <StartIPFSStreamingButton />
+        <Web3Button></Web3Button>
       </div>
     </div>
   );

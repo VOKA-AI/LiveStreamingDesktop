@@ -63,6 +63,10 @@
   },
   "dependencies": {
     "@electron/remote": "2.0.8",
+    "@walletconnect/jsonrpc-types": "^1.0.2",
+    "@walletconnect/types": "^2.4.3",
+    "@web3modal/ethereum": "^2.1.1",
+    "@web3modal/react": "^2.1.1",
     "abort-controller": "^3.0.0",
     "archiver": "2.1.1",
     "aws-sdk": "^2.344.0",
@@ -71,6 +75,7 @@
     "electron-react-devtools": "^0.5.3",
     "electron-updater": "^4.2.0",
     "electron-window-state": "5.0.3",
+    "ethers": "^5",
     "extract-zip": "^1.6.7",
     "font-manager": "https://slobs-font-manager.s3-us-west-2.amazonaws.com/font-manager-0.0.0.tar.gz",
     "fs-extra": "^9.0.0",
@@ -92,7 +97,8 @@
     "socket.io-client": "2.1.1",
     "tasklist": "^3.1.1",
     "uuid": "^3.0.1",
-    "vuejs-datepicker": "^1.6.2"
+    "vuejs-datepicker": "^1.6.2",
+    "wagmi": "^0.11.5"
   },
   "devDependencies": {
     "7zip-bin": "2.4.1",
