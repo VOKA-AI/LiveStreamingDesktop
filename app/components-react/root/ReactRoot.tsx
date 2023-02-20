@@ -1,10 +1,7 @@
-import React, {useEffect} from 'react';
+import React  from 'react';
 import { createApp, Dict, inject, ReactModules, Store, TAppContext } from 'slap';
 import { getResource, StatefulService } from '../../services';
 import { AppServices } from '../../app-services';
-import { Services } from '../service-provider';
-import WalletConnectButton from '../WalletConnect/WalletConnect'
-import { useWeb3Modal } from "@web3modal/react";
 
 /**
  * This module adds reactivity support from Vuex
@@ -83,22 +80,10 @@ function resolveApp() {
  */
 export function createRoot(ChildComponent: (props: any) => JSX.Element) {
   return function ReactRoot(childProps: Object) {
-  const { WindowsService } = Services;
-  const { isOpen } = useWeb3Modal()
-  useEffect(() => {
-    if (isOpen) {
-      // if WalletConnect Panel open, hide OBS Display
-      WindowsService.updateStyleBlockers('main', true);
-    } else {
-      // else show OBS Display
-      WindowsService.updateStyleBlockers('main', false);
-    }
-  });
     const app = resolveApp();
 
     return (
       <ReactModules app={app}>
-        <WalletConnectButton></WalletConnectButton>
         <ChildComponent {...childProps} />
       </ReactModules>
     );
