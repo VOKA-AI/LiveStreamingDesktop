@@ -14,7 +14,7 @@ import NotificationsArea from './NotificationsArea';
 import { Tooltip } from 'antd';
 import { confirmAsync } from 'components-react/modals';
 import { useModule } from 'slap';
-import { Web3Button } from "@web3modal/react"
+import WalletConnectButton from 'components-react/WalletConnect/WalletConnect';
 
 export default function StudioFooterComponent() {
   const {
@@ -206,7 +206,7 @@ export default function StudioFooterComponent() {
         )}
         {recordingModeEnabled && <RecordingButton />}
         <StartIPFSStreamingButton />
-        <Web3Button></Web3Button>
+        <WalletConnectButton></WalletConnectButton>
       </div>
     </div>
   );
