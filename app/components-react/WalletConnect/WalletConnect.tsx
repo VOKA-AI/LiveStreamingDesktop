@@ -1,4 +1,4 @@
-import React, {useEffect, useRef} from 'react';
+import React, {useEffect} from 'react';
 import {
     EthereumClient,
     modalConnectors,
@@ -65,7 +65,6 @@ export default function WalletConnectButton() {
     themeBackground: "gradient",
   });
 
-  const web3btnRef = useRef(null);
   useEffect(() => {
     if(isConnecting) {
       console.log("connecting, please wait!")
@@ -88,7 +87,6 @@ export default function WalletConnectButton() {
   }
 
   function connectButtonClicked() {
-    console.log(web3btnRef.current.child)
     if(isConnected && address != undefined) {
       alert("connected! if status is error, reopen the app please!")
     }
@@ -108,7 +106,7 @@ export default function WalletConnectButton() {
   return (
     <div className={styles.WalletConnect}>
       <WagmiConfig client={wagmiClient}>
-        <div onClick={connectButtonClicked} ref={web3btnRef}>
+        <div onClick={connectButtonClicked}>
         <Web3Button />
         </div>
         {isConnected && address && (

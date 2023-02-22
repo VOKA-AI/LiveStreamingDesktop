@@ -156,6 +156,12 @@ use a professional translation team that manages translations elsewhere.
 
 ## Packaging/Distribution
 
+**注意：**
+
+如果打包失败，报错`SignTool Error: No certificates were found that met all the given criteria.`，很有可能是签名的问题。
+
+可以将环境变量`SLOBS_NO_SIGN`设为true，既`export SLOBS_NO_SIGN=true`
+
 For Windows:
 
 ```
