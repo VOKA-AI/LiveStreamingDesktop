@@ -10,6 +10,13 @@ This application currently only supports OSX 10.14+ and 64-bit Windows.
 
 ## Dependencies
 
+**注意：**
+需要注意版本，否则可能编译失败：
+
+* npm 9.2.0
+* nodejs v16.18.1
+* yarn 3.1.1
+
 ### Node.js
 
 Node is required for installing npm packages and for running
