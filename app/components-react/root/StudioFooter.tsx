@@ -98,6 +98,18 @@ export default function StudioFooterComponent() {
     StreamingService.actions.saveReplay();
   }
 
+  function showCameraPage() {
+    WindowsService.showWindow({
+      componentName: 'CameraWindows',
+      title: $t('Add Source'),
+      size: {
+        width: 900,
+        height: 700,
+      },
+    });
+
+  }
+
   async function showRecordingModeDisableModal() {
     const result = await confirmAsync({
       title: $t('Enable Live Streaming?'),
@@ -207,6 +219,7 @@ export default function StudioFooterComponent() {
         {recordingModeEnabled && <RecordingButton />}
         <StartIPFSStreamingButton />
         <WalletConnectButton></WalletConnectButton>
+        <button onClick={showCameraPage}>打开摄像头页面</button>
       </div>
     </div>
   );
