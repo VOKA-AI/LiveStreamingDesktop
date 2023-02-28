@@ -298,7 +298,7 @@ module.exports = {
         ],
       },
       {
-        test: /\.(png|jpe?g|gif|svg|mp4|ico|wav|webm|icns)(\?.*)?$/,
+        test: /\.(png|jpe?g|gif|svg|mp4|ico|wav|webm|icns|data|binarypb|wasm)(\?.*)?$/,
         loader: 'file-loader',
         options: {
           name: '[name]-[hash].[ext]',
