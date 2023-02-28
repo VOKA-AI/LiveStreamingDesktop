@@ -484,3 +484,11 @@ export class UltraIcon extends ReactComponent<{
   type?: string;
   className?: string;
 }> {}
+
+@Component({
+  props: {
+    name: { default: 'CameraWindows' },
+    wrapperStyles: { default: () => ({ height: '100%' }) },
+  },
+})
+export class CameraWindows extends ReactComponent {}
