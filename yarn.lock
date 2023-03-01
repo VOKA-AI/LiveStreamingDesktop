@@ -3641,6 +3641,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/three@npm:^0.149.0":
+  version: 0.149.0
+  resolution: "@types/three@npm:0.149.0"
+  dependencies:
+    "@types/webxr": "*"
+  checksum: 5def82bd5d4fb0eb6046e747eecced06d68fbf1747ab8f3e7657872e42e58ce7a92218d7c5e4ca26204257927638ad14da5d1cce7310aca15eb8a9bd484ea191
+  languageName: node
+  linkType: hard
+
 "@types/tough-cookie@npm:*":
   version: 4.0.2
   resolution: "@types/tough-cookie@npm:4.0.2"
@@ -3735,6 +3744,13 @@ __metadata:
     anymatch: ^3.0.0
     source-map: ^0.6.0
   checksum: 5f64818128c94026be0e43e77d687e2d90f0da526a3a7c308c6a0bb12e93a35c9243be427bbf6865f64fd71dc5b32715af9b9da0cd6ae8335081b6db995bad2b
+  languageName: node
+  linkType: hard
+
+"@types/webxr@npm:*":
+  version: 0.5.1
+  resolution: "@types/webxr@npm:0.5.1"
+  checksum: a77c6be72623679341526dbec18971db0824d5697626d56decc8bb5b73491582b64d094c168ae8d00861549122ca066d7dc45d9cbb5c608626be7f48a6cd7c43
   languageName: node
   linkType: hard
 
@@ -17649,6 +17665,7 @@ __metadata:
     "@types/socket.io-client": 1.4.32
     "@types/sortablejs": 1.10.6
     "@types/tapable": 0.2.5
+    "@types/three": ^0.149.0
     "@types/uuid": 3.4.9
     "@typescript-eslint/eslint-plugin": 3.10.1
     "@typescript-eslint/parser": 3.10.1
@@ -17762,7 +17779,7 @@ __metadata:
     stylelint-config-standard: 18.2.0
     tasklist: ^3.1.1
     terser-webpack-plugin: 5.0.3
-    three: ^0.150.0
+    three: ^0.150.1
     traverse: 0.6.6
     tree-kill: 1.2.2
     ts-loader: 8.0.11
@@ -18840,10 +18857,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"three@npm:^0.150.0":
-  version: 0.150.0
-  resolution: "three@npm:0.150.0"
-  checksum: 6177334162ce2b1fad8cdf15e33978d855d3724f6270d952667da1a64ea3a06c9369ddef12f4206b3fed5d98b7bc8be9a98f3ae705dfb3262ffb1234e7a9ea14
+"three@npm:^0.150.1":
+  version: 0.150.1
+  resolution: "three@npm:0.150.1"
+  checksum: b12a92a681a30e62640d90bdf074d039c05d8294ad40f437e7e1807ce0e698ad6728878a1e72dad22bf05d7a359843ecea8739d05f2f13143bc3a4ecdfdbdd7b
   languageName: node
   linkType: hard
 
