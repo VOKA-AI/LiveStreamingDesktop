@@ -25,6 +25,7 @@ import VModal from 'vue-js-modal';
 import VeeValidate from 'vee-validate';
 import ChildWindow from 'components/windows/ChildWindow';
 import OneOffWindow from 'components/windows/OneOffWindow.vue';
+import OneOffWindowWithoutTitleBar from 'components/windows/OneOffWindowWithoutTitleBar.vue';
 import { UserService, setSentryContext } from 'services/user';
 import { getResource } from 'services';
 import * as obs from '../obs-api';
@@ -332,6 +333,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
   }
 
+  const windowsWithoutTitleBar = ["camera"];
   // create a root Vue component
   const windowId = Utils.getCurrentUrlParams().windowId;
   const vm = new Vue({
@@ -365,6 +367,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         return h(Loader);
       }
       if (windowId === 'main') return h(Main);
+      if(windowsWithoutTitleBar.includes(windowId)) return h(OneOffWindowWithoutTitleBar);
       return h(OneOffWindow);
     },
   });
