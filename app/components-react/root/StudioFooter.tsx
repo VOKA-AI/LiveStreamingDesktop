@@ -99,15 +99,16 @@ export default function StudioFooterComponent() {
   }
 
   function showCameraPage() {
-    WindowsService.showWindow({
-      componentName: 'CameraWindows',
-      title: $t('Add Source'),
-      size: {
-        width: 900,
-        height: 700,
+    WindowsService.createOneOffWindow(
+      {
+        componentName: 'CameraWindows',
+        size: {
+          width: 900,
+          height: 700,
+        },
       },
-    });
-
+      'camera'
+    );
   }
 
   async function showRecordingModeDisableModal() {
