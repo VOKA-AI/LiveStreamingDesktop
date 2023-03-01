@@ -66,6 +66,7 @@
     "@mediapipe/camera_utils": "^0.3.1675466862",
     "@mediapipe/drawing_utils": "^0.3.1675466124",
     "@mediapipe/face_mesh": "^0.4.1633559619",
+    "@types/three": "^0.149.0",
     "@walletconnect/jsonrpc-types": "^1.0.2",
     "@walletconnect/types": "^2.4.3",
     "@web3modal/ethereum": "^2.1.1",
@@ -101,7 +102,7 @@
     "semver": "^5.5.1",
     "socket.io-client": "2.1.1",
     "tasklist": "^3.1.1",
-    "three": "^0.150.0",
+    "three": "^0.150.1",
     "uuid": "^3.0.1",
     "vuejs-datepicker": "^1.6.2",
     "wagmi": "^0.11.5"
