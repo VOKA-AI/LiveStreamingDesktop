@@ -86,6 +86,7 @@
     "game_overlay": "https://obs-studio-deployment.s3-us-west-2.amazonaws.com/game-overlay-v0.0.0.tar.gz",
     "ipfs-http-client": "^60.0.0",
     "kalidokit": "^1.1.5",
+    "maath": "^0.5.2",
     "node-fetch": "^2.6.1",
     "node-fontinfo": "https://slobs-node-fontinfo.s3-us-west-2.amazonaws.com/node-fontinfo-0.0.0.tar.gz",
     "node-libuiohook": "https://slobs-node-libuiohook.s3-us-west-2.amazonaws.com/node-libuiohook-0.0.0.tar.gz",

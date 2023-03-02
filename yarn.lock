@@ -13226,6 +13226,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"maath@npm:^0.5.2":
+  version: 0.5.2
+  resolution: "maath@npm:0.5.2"
+  peerDependencies:
+    "@types/three": ">=0.144.0"
+    three: ">=0.144.0"
+  checksum: 1e6f8f96980271bdd48fc662eef496030feed935272c27deb2e7386b18919a7d710ba96a134a063fc141944ab9af3b2c78e1aa95cbcedf2fc6d82b8a72b185de
+  languageName: node
+  linkType: hard
+
 "macos-release@npm:^2.2.0":
   version: 2.5.1
   resolution: "macos-release@npm:2.5.1"
@@ -17727,6 +17737,7 @@ __metadata:
     less-loader: 7.2.1
     lodash: 4.17.21
     lodash-decorators: 4.5.0
+    maath: ^0.5.2
     mark.js: 8.11.1
     mime: 2.4.3
     moment: 2.29.2
