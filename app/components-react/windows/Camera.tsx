@@ -15,9 +15,11 @@ import {
     PointLight,
     DirectionalLight,
     AnimationMixer,
+    AmbientLight,
     sRGBEncoding,
  } from "three";
  import { GLTF, GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+ import { getMorphTargetMesh, setMeshMorphTargetInfluences, modelUpdateModelPosition, modelUpdateModelRotation } from 'services/threejs/ModelRender'
 
 
 const mediapipeConfigOptions = {
@@ -36,14 +38,16 @@ export default function CameraWindows() {
     var camera: any;
     var videoElement: HTMLVideoElement;
     var mesh: any;
+    var meshWithMorphTarget: any;
     var mixer: any;
+    var riggedFace:any;
 
     function onResults(results: any) {
         if(results.multiFaceLandmarks.length < 1) {
             return;
         }
 
-        const riggedFace = Face.solve(results.multiFaceLandmarks[0], {
+        riggedFace = Face.solve(results.multiFaceLandmarks[0], {
             runtime: 'mediapipe',
             video: videoElement,
             imageSize: {
@@ -51,7 +55,6 @@ export default function CameraWindows() {
                 height: parseInt(videoElement.style.height),
             },
         });
-        console.log(riggedFace)
     }
 
     function createThree() {
@@ -62,34 +65,47 @@ export default function CameraWindows() {
         renderer.setSize(window.innerWidth, window.innerHeight);
         const parentElement:any = threeRef.current
         parentElement.appendChild(renderer.domElement)
-        camera.position.y = -10;
+        camera.position.z = 20;
 
-        const light1 = new DirectionalLight( 0xefefff, 1.5 );
-        light1.position.set(1, 1, 1).normalize();
+        const light1 = new DirectionalLight(0xffffff);
+        light1.position.set(0, 0, 25).normalize();
         scene.add(light1);
 
-        const light2 = new DirectionalLight(0xffefef, 1.5);
-        light2.position.set(- 1, - 1, - 1).normalize();
+        const light2 = new AmbientLight(0xffffff, 0.1);
+        //light1.position.set(0, 25, 25).normalize();
+        //light2.position.set(- 1, - 1, - 1).normalize();
         scene.add(light2);
 
         const loader = new GLTFLoader();
-        loader.load('media/models/Horse.glb', function (gltf: any) {
-            mesh = gltf.scene.children[0];
-            mesh.scale.set(0.5, 0.5, 0.5);
-            scene.add(mesh);
-            mixer = new AnimationMixer(mesh);
-            mixer.clipAction(gltf.animations[0]).setDuration(1).play();
+        loader.load('media/models/Duck3.glb', function (gltf: any) {
+            meshWithMorphTarget = getMorphTargetMesh(gltf)
+            mesh = gltf.scene
+            mesh.scale.set(11, 11, 11);
+            scene.add(mesh)
+            //scene.add(gltf.scene);
+            //mixer = new AnimationMixer(mesh);
+            //mixer.clipAction(gltf.animations[0]).setDuration(1).play();
+            animate()
         }, undefined, function (error) {
             console.error(error);
         });
 
         function animate() {
             requestAnimationFrame(animate);
+
+            if(riggedFace && mesh && mesh.children && mesh.children.length > 0) {
+            //console.log(meshWithMorphTarget.morphTargetInfluences)
+            //setMeshMorphTargetInfluences(meshWithMorphTarget, {'mouse':((meshWithMorphTarget.morphTargetInfluences[meshWithMorphTarget.morphTargetDictionary["mouse"]] * 10 + 1) % 10)/10})
+            setMeshMorphTargetInfluences(meshWithMorphTarget, {'eye-R':1 - riggedFace.eye.r,'eye-L':1 - riggedFace.eye.l, 'eyes-_down': 0, 'mouse':riggedFace.mouth.shape.A});
+
+            modelUpdateModelPosition(mesh, { 'x': riggedFace.head.position.x, 'y': riggedFace.head.position.y, 'z': riggedFace.head.position.z });
+
+            modelUpdateModelRotation(mesh, { 'x': riggedFace.head.degrees.x, 'y': riggedFace.head.degrees.y, 'z': riggedFace.head.degrees.z });
+            }
             renderer.render(scene, camera);
         }
-        animate()
     }
-    
+   
     function createThree2() {
         const scene = new Scene();
         //scene.background = new Color( 0xf0f0f0 );
@@ -117,7 +133,7 @@ export default function CameraWindows() {
     }
 
     useEffect(() => {
-        createThree2()
+        createThree()
         const faceMesh = new FaceMesh({
               locateFile: (file) => {
                   return `media/mediapipe/${file}`;
@@ -141,6 +157,7 @@ export default function CameraWindows() {
         }
     }, [])
 
+    // TODO:需要解决resize的问题，现在resize会出现threejs不跟着变化的问题
     return (
         <div>
             <div className={styles.Three} ref={threeRef}></div>

@@ -449,7 +449,10 @@ export class WindowsService extends StatefulService<IWindowsState> {
     const indexUrl = remote.getGlobal('indexUrl');
     newWindow.loadURL(`${indexUrl}?windowId=${windowId}`);
 
-    newWindow.show();
+    newWindow.once('ready-to-show', () => {
+      // newWindow.showInactive()
+      newWindow.show();
+    })
 
     return windowId;
   }
