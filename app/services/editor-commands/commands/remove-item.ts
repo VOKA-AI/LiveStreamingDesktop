@@ -6,6 +6,7 @@ import { Source } from 'services/sources';
 import { ReorderNodesCommand, EPlaceType } from './reorder-nodes';
 import { $t } from 'services/i18n';
 import { ISceneItemSettings } from 'services/api/external-api/scenes';
+import { WindowsService } from 'app-services';
 
 // Removing and recreating a source is a very complex event.
 // We can save a lot of time by leveraging the scene collection system.
@@ -23,6 +24,7 @@ class SourceReviver extends SourcesNode {
 
 export class RemoveItemCommand extends Command {
   @Inject() private scenesService: ScenesService;
+  @Inject() private windowsService: WindowsService;
 
   private sceneId: string;
   private sourceId: string;
@@ -47,6 +49,10 @@ export class RemoveItemCommand extends Command {
     const scene = this.scenesService.views.getScene(item.sceneId);
     this.sceneId = item.sceneId;
     this.sourceId = item.sourceId;
+    if(item.type == 'ar_face_mask') {
+      // 关闭窗口
+      this.windowsService.closeOneOffWindow("camera")
+    }
 
     this.settings = item.getSettings();
 

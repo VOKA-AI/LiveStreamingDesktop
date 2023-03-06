@@ -28,9 +28,13 @@ export class CreateNewItemCommand extends Command {
     this.options.sourceAddOptions.sourceId =
       this.options.sourceAddOptions.sourceId || this.sourceId;
 
+    let finalType: TSourceType = this.type;
+    if(this.type === 'ar_face_mask') {
+      finalType = 'window_capture';
+    }
     const item = this.scenesService.views
       .getScene(this.sceneId)
-      .createAndAddSource(this.name, this.type, this.settings, this.options);
+      .createAndAddSource(this.name, finalType, this.settings, this.options);
 
     this.sourceId = item.sourceId;
     this.sceneItemId = item.id;

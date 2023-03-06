@@ -190,7 +190,7 @@ export default function AddSource() {
         'CreateNewItemCommand',
         activeScene.id,
         name,
-        'window_capture',
+        'ar_face_mask',
         settings,
         {
           sourceAddOptions: {
@@ -201,6 +201,7 @@ export default function AddSource() {
         },
       );
     const source = item?.source;
+    source.setType("ar_face_mask")
     /*
     WindowsService.windows[newWinTitle]?.on("show",() => {
       setFaceMaskSourceWindow(source, newWinTitle);
