@@ -1,5 +1,6 @@
 // This is a full list of commands that can be executed from
 // the editor and can be rolled back.
+// 设计模式：Command
 
 // Scenes
 export { CreateSceneCommand } from './create-scene';

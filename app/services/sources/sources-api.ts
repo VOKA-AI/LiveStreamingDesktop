@@ -137,6 +137,7 @@ export type TSourceType =
   | 'syphon-input'
   | 'soundtrack_source'
   | 'mediasoupconnector'
+  | 'ar_face_mask'
   | 'wasapi_process_output_capture';
 
 // Register new properties managers here

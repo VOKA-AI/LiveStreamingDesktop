@@ -77,7 +77,9 @@ export default function CameraWindows() {
         scene.add(light2);
 
         const loader = new GLTFLoader();
-        loader.load('media/models/Duck3.glb', function (gltf: any) {
+        // TODO: 打包后，model好像会坏掉，删除重新接入model，会
+        //loader.load('media/models/Duck3.glb', function (gltf: any) {
+        loader.load('https://github.com/VOKA-AI/react-face-mask/blob/main/public/Duck3.glb?raw=true', function (gltf: any) {
             meshWithMorphTarget = getMorphTargetMesh(gltf)
             mesh = gltf.scene
             mesh.scale.set(11, 11, 11);

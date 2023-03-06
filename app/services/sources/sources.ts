@@ -92,6 +92,7 @@ export const windowsSources: TSourceType[] = [
   'soundtrack_source',
   'mediasoupconnector',
   'wasapi_process_output_capture',
+  'ar_face_mask',
 ];
 
 /**
@@ -301,6 +302,7 @@ export class SourcesService extends StatefulService<ISourcesState> {
       obsInputSettings.is_media_flag = false;
     }
 
+    // 创建一个input
     const obsInput = obs.InputFactory.create(type, id, obsInputSettings);
 
     // For Guest Cam, we default sources to monitor so the streamer can hear guests
@@ -335,6 +337,7 @@ export class SourcesService extends StatefulService<ISourcesState> {
       obs.Global.setOutputSource(options.channel, obsInput);
     }
     const id = obsInput.name;
+    //const type: TSourceType = obsInput.id === "ar_face_mask" ? "ar_face_mask" as TSourceType: obsInput.id as TSourceType;
     const type: TSourceType = obsInput.id as TSourceType;
     const managerType = options.propertiesManager || 'default';
     this.ADD_SOURCE({
@@ -343,6 +346,7 @@ export class SourcesService extends StatefulService<ISourcesState> {
       type,
       width: obsInput.width,
       height: obsInput.height,
+      //configurable: obsInput.id === 'ar_face_mask' ? true : obsInput.configurable,
       configurable: obsInput.configurable,
       channel: options.channel,
       isTemporary: options.isTemporary,
@@ -381,6 +385,8 @@ export class SourcesService extends StatefulService<ISourcesState> {
       }
     } else if (type === 'window_capture') {
       this.usageStatisticsService.recordFeatureUsage('WindowCapture');
+    //} else if (type === 'ar_face_mask') {
+      //this.usageStatisticsService.recordFeatureUsage('WindowCapture');
     } else if (type === 'monitor_capture') {
       this.usageStatisticsService.recordFeatureUsage('DisplayCapture');
     } else if (type === 'game_capture') {
@@ -594,6 +600,7 @@ export class SourcesService extends StatefulService<ISourcesState> {
     );
     // 'scene' is not an obs input type so we have to set it manually
     availableAllowlistedTypes.push({ description: 'Scene', value: 'scene' });
+    availableAllowlistedTypes.push({ description: 'AR Face Mask', value: 'ar_face_mask' });
 
     return availableAllowlistedTypes;
   }
