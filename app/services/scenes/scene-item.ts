@@ -41,6 +41,7 @@ export class SceneItem extends SceneItemNode {
   sourceId: string;
   name: string;
   type: TSourceType;
+  realType: TSourceType;
   audio: boolean;
   video: boolean;
   muted: boolean;

@@ -9,6 +9,7 @@ export interface ISource {
   sourceId: string;
   name: string;
   type: TSourceType;
+  realType: TSourceType;
   audio: boolean;
   video: boolean;
   async: boolean;

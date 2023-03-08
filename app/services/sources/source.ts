@@ -23,6 +23,7 @@ export class Source implements ISourceApi {
   sourceId: string;
   name: string;
   type: TSourceType;
+  realType: TSourceType;
   audio: boolean;
   video: boolean;
   async: boolean;

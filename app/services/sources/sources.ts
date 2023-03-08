@@ -121,6 +121,7 @@ export const macSources: TSourceType[] = [
 
 class SourcesViews extends ViewHandler<ISourcesState> {
   get sources(): Source[] {
+    console.log("sources.ts get sources")
     return Object.values(this.state.sources).map(
       sourceModel => this.getSource(sourceModel.sourceId)!,
     );
@@ -133,7 +134,13 @@ class SourcesViews extends ViewHandler<ISourcesState> {
   }
 
   getSource(id: string): Source | null {
-    return this.state.sources[id] || this.state.temporarySources[id] ? new Source(id) : null;
+    const source: Source = this.state.sources[id] || this.state.temporarySources[id] ? new Source(id) : null;
+    /*
+    console.log("----------------")
+    console.log(source.name)
+    console.log("----------------")
+    */
+    return source;
   }
 
   getSourceByChannel(channel: E_AUDIO_CHANNELS): Source | null {
@@ -145,6 +152,7 @@ class SourcesViews extends ViewHandler<ISourcesState> {
   }
 
   getSources() {
+    console.log("sources get Sources")
     return this.sources;
   }
 
@@ -224,6 +232,7 @@ export class SourcesService extends StatefulService<ISourcesState> {
     id: string;
     name: string;
     type: TSourceType;
+    realType?: TSourceType;
     configurable: boolean;
     width: number;
     height: number;
@@ -233,11 +242,18 @@ export class SourcesService extends StatefulService<ISourcesState> {
     deinterlaceMode?: EDeinterlaceMode;
     deinterlaceFieldOrder?: EDeinterlaceFieldOrder;
   }) {
+    /*
+    console.log("44444444444444")
+    console.log(addOptions.type)
+    console.log("44444444444444")
+    */
     const id = addOptions.id;
     const sourceModel: ISource = {
       sourceId: id,
       name: addOptions.name,
+      //type: (addOptions.type === "ar_face_mask" ? "window_capture" : addOptions.type),
       type: addOptions.type,
+      realType: addOptions.realType,
       propertiesManagerType: addOptions.propertiesManagerType || 'default',
 
       // Whether the source has audio and/or video
@@ -293,6 +309,7 @@ export class SourcesService extends StatefulService<ISourcesState> {
     type: TSourceType,
     settings: Dictionary<any> = {},
     options: ISourceAddOptions = {},
+    realType: TSourceType = type,
   ): Source {
     const id: string = options.sourceId || `${type}_${uuid()}`;
     const obsInputSettings = this.getObsSourceCreateSettings(type, settings);
@@ -311,7 +328,11 @@ export class SourcesService extends StatefulService<ISourcesState> {
       options.audioSettings.monitoringType = EMonitoringType.MonitoringOnly;
     }
 
-    this.addSource(obsInput, name, options);
+    if (type === 'ar_face_mask') {
+
+    }
+
+    this.addSource(obsInput, name, options, realType);
 
     if (
       this.defaultHardwareService.state.defaultVideoDevice === obsInputSettings.video_device_id &&
@@ -332,7 +353,13 @@ export class SourcesService extends StatefulService<ISourcesState> {
     return this.views.getSource(id)!;
   }
 
-  addSource(obsInput: obs.IInput, name: string, options: ISourceAddOptions = {}) {
+  addSource(obsInput: obs.IInput, name: string, options: ISourceAddOptions = {}, realType: TSourceType = obsInput.id as TSourceType) {
+    /*
+    console.log("555555555555555555")
+    console.log(obsInput)
+    console.log(obsInput.id)
+    console.log("555555555555555555")
+    */
     if (options.channel !== void 0) {
       obs.Global.setOutputSource(options.channel, obsInput);
     }
@@ -344,6 +371,7 @@ export class SourcesService extends StatefulService<ISourcesState> {
       id,
       name,
       type,
+      realType,
       width: obsInput.width,
       height: obsInput.height,
       //configurable: obsInput.id === 'ar_face_mask' ? true : obsInput.configurable,
@@ -668,6 +696,7 @@ export class SourcesService extends StatefulService<ISourcesState> {
     const source = this.views.getSource(sourceId);
     if (!source) return;
 
+    //if (source.type === 'ar_face_mask') return this.showScreenCaptureProperties(source);
     if (source.type === 'screen_capture') return this.showScreenCaptureProperties(source);
     if (source.type === 'mediasoupconnector') return this.showGuestCamProperties(source);
 

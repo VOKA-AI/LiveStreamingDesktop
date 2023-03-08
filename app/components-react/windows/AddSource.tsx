@@ -190,7 +190,7 @@ export default function AddSource() {
         'CreateNewItemCommand',
         activeScene.id,
         name,
-        'ar_face_mask',
+        'window_capture',
         settings,
         {
           sourceAddOptions: {
@@ -199,6 +199,7 @@ export default function AddSource() {
             guestCamStreamId: sourceAddOptions.guestCamStreamId,
           },
         },
+        'ar_face_mask',
       );
     const source = item?.source;
     source.setType("ar_face_mask")
@@ -248,6 +249,7 @@ export default function AddSource() {
             guestCamStreamId: sourceAddOptions.guestCamStreamId,
           },
         },
+        sourceType,
       );
       source = item?.source;
     }
