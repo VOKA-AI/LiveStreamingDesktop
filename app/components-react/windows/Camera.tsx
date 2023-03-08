@@ -138,6 +138,10 @@ export default function CameraWindows() {
         createThree()
         const faceMesh = new FaceMesh({
               locateFile: (file) => {
+                // TODO: 不优雅的方式，问题应该处在webpack上，后期采用更优雅方式解决文件定位不到的问题
+                if(file.split('.')[1] === 'data') {
+                    return `resources/app/media/mediapipe/${file}`;
+                }
                   return `media/mediapipe/${file}`;
           },
         });
