@@ -49,7 +49,7 @@ export class RemoveItemCommand extends Command {
     const scene = this.scenesService.views.getScene(item.sceneId);
     this.sceneId = item.sceneId;
     this.sourceId = item.sourceId;
-    if(item.type == 'ar_face_mask') {
+    if(item.realType == 'ar_face_mask') {
       // 关闭窗口
       this.windowsService.closeOneOffWindow("camera")
     }
