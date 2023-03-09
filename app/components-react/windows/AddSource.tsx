@@ -146,7 +146,8 @@ export default function AddSource() {
 
   function setFaceMaskSourceWindow(source: ISourceApi, winTitle: string) {
     // 正则表达式：以winTitle开头 & 以electron.exe结尾
-    const reg: RegExp = new RegExp("^(" + winTitle + ').*(electron.exe)$')
+    //const reg: RegExp = new RegExp("^(" + winTitle + ').*(electron.exe)$')
+    const reg: RegExp = new RegExp("^(" + winTitle + ').*')
     const beforeFormData = source.getPropertiesFormData();
     beforeFormData.forEach((property:any) => {
       property.options?.forEach((op:any) => {
