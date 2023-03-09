@@ -150,9 +150,10 @@ export class Scene {
     type: TSourceType,
     settings?: Dictionary<any>,
     options: ISceneNodeAddOptions = {},
+    realType: TSourceType = type,
   ): SceneItem {
     const sourceAddOptions = options.sourceAddOptions || {};
-    const source = this.sourcesService.createSource(sourceName, type, settings, sourceAddOptions);
+    const source = this.sourcesService.createSource(sourceName, type, settings, sourceAddOptions, realType);
     return this.addSource(source.sourceId, options);
   }
 

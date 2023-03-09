@@ -77,7 +77,9 @@ export default function CameraWindows() {
         scene.add(light2);
 
         const loader = new GLTFLoader();
-        loader.load('media/models/Duck3.glb', function (gltf: any) {
+        // TODO: 打包后，model好像会坏掉，删除重新接入model，会
+        //loader.load('media/models/Duck3.glb', function (gltf: any) {
+        loader.load('https://github.com/VOKA-AI/react-face-mask/blob/main/public/Duck3.glb?raw=true', function (gltf: any) {
             meshWithMorphTarget = getMorphTargetMesh(gltf)
             mesh = gltf.scene
             mesh.scale.set(11, 11, 11);
@@ -136,6 +138,10 @@ export default function CameraWindows() {
         createThree()
         const faceMesh = new FaceMesh({
               locateFile: (file) => {
+                // TODO: 不优雅的方式，问题应该处在webpack上，后期采用更优雅方式解决文件定位不到的问题
+                if(file.split('.')[1] === 'data') {
+                    return `resources/app/media/mediapipe/${file}`;
+                }
                   return `media/mediapipe/${file}`;
           },
         });

@@ -18,6 +18,7 @@ export class CreateNewItemCommand extends Command {
     private type: TSourceType,
     private settings?: Dictionary<any>,
     private options: ISceneNodeAddOptions = {},
+    private realType: TSourceType = type,
   ) {
     super();
     this.description = $t('Create %{sourceName}', { sourceName: name });
@@ -30,11 +31,10 @@ export class CreateNewItemCommand extends Command {
 
     const item = this.scenesService.views
       .getScene(this.sceneId)
-      .createAndAddSource(this.name, this.type, this.settings, this.options);
+      .createAndAddSource(this.name, this.type, this.settings, this.options, this.realType);
 
     this.sourceId = item.sourceId;
     this.sceneItemId = item.id;
-
     return item;
   }
 

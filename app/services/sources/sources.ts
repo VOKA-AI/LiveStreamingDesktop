@@ -92,6 +92,7 @@ export const windowsSources: TSourceType[] = [
   'soundtrack_source',
   'mediasoupconnector',
   'wasapi_process_output_capture',
+  'ar_face_mask',
 ];
 
 /**
@@ -120,6 +121,7 @@ export const macSources: TSourceType[] = [
 
 class SourcesViews extends ViewHandler<ISourcesState> {
   get sources(): Source[] {
+    console.log("sources.ts get sources")
     return Object.values(this.state.sources).map(
       sourceModel => this.getSource(sourceModel.sourceId)!,
     );
@@ -132,7 +134,13 @@ class SourcesViews extends ViewHandler<ISourcesState> {
   }
 
   getSource(id: string): Source | null {
-    return this.state.sources[id] || this.state.temporarySources[id] ? new Source(id) : null;
+    const source: Source = this.state.sources[id] || this.state.temporarySources[id] ? new Source(id) : null;
+    /*
+    console.log("----------------")
+    console.log(source.name)
+    console.log("----------------")
+    */
+    return source;
   }
 
   getSourceByChannel(channel: E_AUDIO_CHANNELS): Source | null {
@@ -144,6 +152,7 @@ class SourcesViews extends ViewHandler<ISourcesState> {
   }
 
   getSources() {
+    console.log("sources get Sources")
     return this.sources;
   }
 
@@ -223,6 +232,7 @@ export class SourcesService extends StatefulService<ISourcesState> {
     id: string;
     name: string;
     type: TSourceType;
+    realType?: TSourceType;
     configurable: boolean;
     width: number;
     height: number;
@@ -232,11 +242,18 @@ export class SourcesService extends StatefulService<ISourcesState> {
     deinterlaceMode?: EDeinterlaceMode;
     deinterlaceFieldOrder?: EDeinterlaceFieldOrder;
   }) {
+    /*
+    console.log("44444444444444")
+    console.log(addOptions.type)
+    console.log("44444444444444")
+    */
     const id = addOptions.id;
     const sourceModel: ISource = {
       sourceId: id,
       name: addOptions.name,
+      //type: (addOptions.type === "ar_face_mask" ? "window_capture" : addOptions.type),
       type: addOptions.type,
+      realType: addOptions.realType,
       propertiesManagerType: addOptions.propertiesManagerType || 'default',
 
       // Whether the source has audio and/or video
@@ -292,6 +309,7 @@ export class SourcesService extends StatefulService<ISourcesState> {
     type: TSourceType,
     settings: Dictionary<any> = {},
     options: ISourceAddOptions = {},
+    realType: TSourceType = type,
   ): Source {
     const id: string = options.sourceId || `${type}_${uuid()}`;
     const obsInputSettings = this.getObsSourceCreateSettings(type, settings);
@@ -301,6 +319,7 @@ export class SourcesService extends StatefulService<ISourcesState> {
       obsInputSettings.is_media_flag = false;
     }
 
+    // 创建一个input
     const obsInput = obs.InputFactory.create(type, id, obsInputSettings);
 
     // For Guest Cam, we default sources to monitor so the streamer can hear guests
@@ -309,7 +328,11 @@ export class SourcesService extends StatefulService<ISourcesState> {
       options.audioSettings.monitoringType = EMonitoringType.MonitoringOnly;
     }
 
-    this.addSource(obsInput, name, options);
+    if (type === 'ar_face_mask') {
+
+    }
+
+    this.addSource(obsInput, name, options, realType);
 
     if (
       this.defaultHardwareService.state.defaultVideoDevice === obsInputSettings.video_device_id &&
@@ -330,19 +353,28 @@ export class SourcesService extends StatefulService<ISourcesState> {
     return this.views.getSource(id)!;
   }
 
-  addSource(obsInput: obs.IInput, name: string, options: ISourceAddOptions = {}) {
+  addSource(obsInput: obs.IInput, name: string, options: ISourceAddOptions = {}, realType: TSourceType = obsInput.id as TSourceType) {
+    /*
+    console.log("555555555555555555")
+    console.log(obsInput)
+    console.log(obsInput.id)
+    console.log("555555555555555555")
+    */
     if (options.channel !== void 0) {
       obs.Global.setOutputSource(options.channel, obsInput);
     }
     const id = obsInput.name;
+    //const type: TSourceType = obsInput.id === "ar_face_mask" ? "ar_face_mask" as TSourceType: obsInput.id as TSourceType;
     const type: TSourceType = obsInput.id as TSourceType;
     const managerType = options.propertiesManager || 'default';
     this.ADD_SOURCE({
       id,
       name,
       type,
+      realType,
       width: obsInput.width,
       height: obsInput.height,
+      //configurable: obsInput.id === 'ar_face_mask' ? true : obsInput.configurable,
       configurable: obsInput.configurable,
       channel: options.channel,
       isTemporary: options.isTemporary,
@@ -381,6 +413,8 @@ export class SourcesService extends StatefulService<ISourcesState> {
       }
     } else if (type === 'window_capture') {
       this.usageStatisticsService.recordFeatureUsage('WindowCapture');
+    //} else if (type === 'ar_face_mask') {
+      //this.usageStatisticsService.recordFeatureUsage('WindowCapture');
     } else if (type === 'monitor_capture') {
       this.usageStatisticsService.recordFeatureUsage('DisplayCapture');
     } else if (type === 'game_capture') {
@@ -594,6 +628,7 @@ export class SourcesService extends StatefulService<ISourcesState> {
     );
     // 'scene' is not an obs input type so we have to set it manually
     availableAllowlistedTypes.push({ description: 'Scene', value: 'scene' });
+    availableAllowlistedTypes.push({ description: 'AR Face Mask', value: 'ar_face_mask' });
 
     return availableAllowlistedTypes;
   }
@@ -661,6 +696,7 @@ export class SourcesService extends StatefulService<ISourcesState> {
     const source = this.views.getSource(sourceId);
     if (!source) return;
 
+    //if (source.type === 'ar_face_mask') return this.showScreenCaptureProperties(source);
     if (source.type === 'screen_capture') return this.showScreenCaptureProperties(source);
     if (source.type === 'mediasoupconnector') return this.showGuestCamProperties(source);
 

@@ -9,6 +9,7 @@ export interface ISource {
   sourceId: string;
   name: string;
   type: TSourceType;
+  realType: TSourceType;
   audio: boolean;
   video: boolean;
   async: boolean;
@@ -137,6 +138,7 @@ export type TSourceType =
   | 'syphon-input'
   | 'soundtrack_source'
   | 'mediasoupconnector'
+  | 'ar_face_mask'
   | 'wasapi_process_output_capture';
 
 // Register new properties managers here

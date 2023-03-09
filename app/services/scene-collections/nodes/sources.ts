@@ -38,6 +38,7 @@ export interface ISourceInfo {
   id: string;
   name: string;
   type: TSourceType;
+  realType: TSourceType;
   settings: obs.ISettings;
 
   volume: number;
@@ -124,6 +125,7 @@ export class SourcesNode extends Node<ISchema, {}> {
             id: source.sourceId,
             name: source.name,
             type: source.type,
+            realType: source.realType,
             settings: obsInput.settings,
             volume: obsInput.volume,
             channel: source.channel,
@@ -226,6 +228,7 @@ export class SourcesNode extends Node<ISchema, {}> {
       return {
         name: source.id,
         type: source.type,
+        realType: source.realType,
         muted: source.muted || false,
         settings: source.settings,
         volume: source.volume,
@@ -294,7 +297,7 @@ export class SourcesNode extends Node<ISchema, {}> {
         propertiesManagerSettings: sourceInfo.propertiesManagerSettings || {},
         deinterlaceMode: sourceInfo.deinterlaceMode,
         deinterlaceFieldOrder: sourceInfo.deinterlaceFieldOrder,
-      });
+      }, sourceInfo.realType);
 
       if (source.audioMixers) {
         this.audioService.views

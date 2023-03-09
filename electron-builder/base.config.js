@@ -13,6 +13,7 @@ const base = {
     'vendor',
     'app/i18n',
     'media/images/game-capture',
+    'media/mediapipe/*',
     'updater/build/bootstrap.js',
     'updater/build/bundle-updater.js',
     'updater/index.html',
