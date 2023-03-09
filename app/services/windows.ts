@@ -43,6 +43,7 @@ import {
   RecordingHistory,
   EditTransform,
   Blank,
+  CameraWindows,
 } from 'components/shared/ReactComponentList';
 
 import SourcePropertiesDeprecated from 'components/windows/SourceProperties.vue';
@@ -143,6 +144,7 @@ export function getComponents() {
     CustomCodeWindow,
     SourceShowcase,
     RecordingHistory,
+    CameraWindows,
   };
 }
 
@@ -398,7 +400,7 @@ export class WindowsService extends StatefulService<IWindowsState> {
    * already exists, this function will focus the existing window instead.
    * @return the window id of the created window
    */
-  createOneOffWindow(options: Partial<IWindowOptions>, windowId?: string): string {
+  createOneOffWindow(options: Partial<IWindowOptions>, windowId?: string, windowTitle:string = 'New Window', showInactive:Boolean = false): string {
     // tslint:disable-next-line:no-parameter-reassignment TODO
     windowId = windowId || uuid();
 
@@ -416,7 +418,7 @@ export class WindowsService extends StatefulService<IWindowsState> {
       fullscreenable: byOS({ [OS.Windows]: true, [OS.Mac]: false }),
       width: 400,
       height: 400,
-      title: 'New Window',
+      title: windowTitle,
       backgroundColor: '#17242D',
       show: false,
       webPreferences: {
@@ -447,7 +449,9 @@ export class WindowsService extends StatefulService<IWindowsState> {
     const indexUrl = remote.getGlobal('indexUrl');
     newWindow.loadURL(`${indexUrl}?windowId=${windowId}`);
 
-    newWindow.show();
+    newWindow.once('ready-to-show', () => {
+      showInactive ? newWindow.showInactive() : newWindow.show();
+    })
 
     return windowId;
   }

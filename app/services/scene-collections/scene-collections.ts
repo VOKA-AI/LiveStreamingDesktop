@@ -11,7 +11,7 @@ import { SceneFiltersNode } from './nodes/scene-filters';
 import path from 'path';
 import { parse } from './parse';
 import { ScenesService } from 'services/scenes';
-import { SourcesService } from 'services/sources';
+import { ISourceApi, SourcesService } from 'services/sources';
 import { E_AUDIO_CHANNELS } from 'services/audio';
 import { AppService } from 'services/app';
 import { RunInLoadingMode } from 'services/app/app-decorators';
@@ -94,6 +94,7 @@ export class SceneCollectionsService extends Service implements ISceneCollection
   collectionWillSwitch = new Subject<void>();
   collectionUpdated = new Subject<ISceneCollectionsManifestEntry>();
   collectionInitialized = new Subject<void>();
+  private cameraWinId = "";
 
   /**
    * Whether a valid collection is currently loaded.
@@ -467,6 +468,65 @@ export class SceneCollectionsService extends Service implements ISceneCollection
     return this.stateService.activeCollection;
   }
 
+  setFaceMaskSourceWindow(source: ISourceApi, winTitle: string) {
+    // 正则表达式：以winTitle开头 & 以electron.exe结尾
+    const reg: RegExp = new RegExp("^(" + winTitle + ').*')
+    const beforeFormData = source.getPropertiesFormData();
+    beforeFormData.forEach((property:any) => {
+      property.options?.forEach((op:any) => {
+        if(reg.test(op.value)) {
+          // 对于facemask，需要将捕获window默认设置为刚刚创建的AR头套窗口，同时不捕获鼠标
+          source.setPropertiesFormData([
+            {
+              name: 'cursor',
+              description: 'Capture Cursor',
+              type: 'OBS_PROPERTY_BOOL',
+              value: false,
+              enabled:true,
+              visible: true
+            },
+            {
+              name: 'window',
+              value: op.value,
+              description: 'Window',
+              type: 'OBS_PROPERTY_LIST',
+              enabled: true,
+              visible: true,
+              options: property.options
+            }
+          ]);
+          // 修改属性，将捕获窗口设置为新建的AR头套窗口，同时设置不捕获鼠标
+          const afterFormData = source.getPropertiesFormData();
+        }
+      })
+    })
+    this.windowsService.windows[this.cameraWinId].minimize();
+  }
+
+  showCameraPage() {
+    const id = uuid()
+    const tmpWintowTitle = 'camera' + id
+    // createOneOffWindow中winID部分会决定是否显示titleBar
+    this.cameraWinId = this.windowsService?.createOneOffWindow(
+      {
+        componentName: 'CameraWindows',
+        size: {
+          width: 900,
+          height: 700,
+        },
+        isFullScreen: true
+      },
+      'camera',
+      tmpWintowTitle,
+      true
+    );
+    
+    //close();
+    const mainWindow = Utils.getMainWindow();
+    mainWindow.moveTop()
+    return tmpWintowTitle
+  }
+
   /* PRIVATE ----------------------------------------------------- */
 
   /**
@@ -513,6 +573,16 @@ export class SceneCollectionsService extends Service implements ISceneCollection
     } else {
       await this.attemptRecovery(id);
     }
+      this.scenesService.views.scenes.forEach((scene) => {
+        scene.getItems().forEach((item) => {
+            console.log(item.realType)
+          if(item.realType === 'ar_face_mask') {
+            // start AR Face Mask Window & set window capture to it
+            const winTitle = this.showCameraPage();
+            setTimeout(this.setFaceMaskSourceWindow, 2000, this.sourcesService.views.getSource(item.sourceId), winTitle)
+          }
+        })
+      })
   }
 
   /**
@@ -520,6 +590,7 @@ export class SceneCollectionsService extends Service implements ISceneCollection
    * @param data Scene collection JSON data
    */
   private async loadDataIntoApplicationState(data: string) {
+    //console.log("load data into application state ", data)
     const root: RootNode = parse(data, NODE_TYPES);
 
     // TODO: This is an edge case now that scene collections are segmented by OS

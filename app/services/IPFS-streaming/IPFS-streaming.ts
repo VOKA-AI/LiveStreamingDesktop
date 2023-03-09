@@ -13,7 +13,8 @@ const IPFS_UPLOAD_INTERVAL = 5000; // ms
 const IPFS_STREAM_TMP_DIR = path.join(remote.app.getPath('appData'), "ipfs_stream_tmp");
 
 remote.getCurrentWindow().on('close', () => {
-    IPFSStreamingService.instance.resetSettings();
+    //IPFSStreamingService.instance.resetSettings();
+    IPFSStreamingService.instance.action.resetSettings();
     //await IPFSStreamingService.instance.IPFSUploadPublish();
     //await IPFSStreamingService.instance.stopIPFSStreaming();
 })

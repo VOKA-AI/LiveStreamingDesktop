@@ -79,6 +79,14 @@ export const SourceDisplayData = (): { [key: string]: ISourceDisplayData } => ({
     icon: 'icon-editor-9',
     shortDesc: $t('Capture an application window'),
   },
+  ar_face_mask: {
+    name: $t('AR Face Mask'),
+    description: $t("AR face mask for Web3.0"),
+    demoFilename: 'window-capture.png',
+    supportList: [$t('111 supportList')],
+    icon: 'icon-editor-9',
+    shortDesc: $t('aaaaaaa'),
+  },
   game_capture: {
     name: $t('Game Capture'),
     description: $t("Capture a game you're playing on your computer."),

@@ -23,6 +23,7 @@ export class Source implements ISourceApi {
   sourceId: string;
   name: string;
   type: TSourceType;
+  realType: TSourceType;
   audio: boolean;
   video: boolean;
   async: boolean;
@@ -212,6 +213,11 @@ export class Source implements ISourceApi {
     this.sourcesService.removeSource(this.sourceId);
   }
 
+  setType(val: TSourceType) {
+    this.SET_TYPE(val);
+    this.sourcesService.sourceUpdated.next(this.state);
+  }
+
   setName(newName: string) {
     this.SET_NAME(newName);
     this.sourcesService.sourceUpdated.next(this.state);
@@ -372,6 +378,11 @@ export class Source implements ISourceApi {
       !this.sourcesService.state.sources[this.sourceId] &&
       !this.sourcesService.state.temporarySources[this.sourceId]
     );
+  }
+
+  @mutation()
+  private SET_TYPE(val: TSourceType) {
+    this.state.type = val;
   }
 
   @mutation()
