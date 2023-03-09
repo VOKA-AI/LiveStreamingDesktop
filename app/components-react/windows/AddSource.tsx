@@ -17,6 +17,7 @@ import Utils from 'services/utils';
 import uuid from 'uuid';
 
 export default function AddSource() {
+  let cameraWinId: string = "";
   const {
     SourcesService,
     ScenesService,
@@ -126,19 +127,20 @@ export default function AddSource() {
     const id = uuid()
     const tmpWintowTitle = 'camera' + id
     // createOneOffWindow中winID部分会决定是否显示titleBar
-    WindowsService.createOneOffWindow(
+    cameraWinId = WindowsService.createOneOffWindow(
       {
         componentName: 'CameraWindows',
         size: {
           width: 900,
           height: 700,
         },
+        isFullScreen: true
       },
       'camera',
       tmpWintowTitle,
       true
     );
-    close();
+    close(); // 关闭source创建window
     const mainWindow = Utils.getMainWindow();
     mainWindow.moveTop()
     return tmpWintowTitle
@@ -177,7 +179,7 @@ export default function AddSource() {
         }
       })
     })
-
+    WindowsService.windows[cameraWinId].minimize();
   }
 
   async function addNewFaceMaskSource(settings: Dictionary<any>) {
@@ -203,13 +205,13 @@ export default function AddSource() {
         'ar_face_mask',
       );
     const source = item?.source;
-    source.setType("ar_face_mask")
     /*
     WindowsService.windows[newWinTitle]?.on("show",() => {
       setFaceMaskSourceWindow(source, newWinTitle);
     });
     */
-    setTimeout(setFaceMaskSourceWindow,1000, source, newWinTitle);
+   // TODO 利用延时来保证Face Mask窗口已经显示，不够准确，应该使用回调
+    setTimeout(setFaceMaskSourceWindow, 1000, source, newWinTitle);
   }
 
   async function addNew() {
