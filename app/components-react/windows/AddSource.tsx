@@ -210,8 +210,10 @@ export default function AddSource() {
       setFaceMaskSourceWindow(source, newWinTitle);
     });
     */
-   // TODO 利用延时来保证Face Mask窗口已经显示，不够准确，应该使用回调
-    setTimeout(setFaceMaskSourceWindow, 1000, source, newWinTitle);
+   // TODO 利用延时来保证Face Mask窗口已经显示，不够准确。
+   // 测试时，延迟时间改为1秒，就会出现捕获窗口失败的情况
+   // 因此，应该使用回调的方式确保成功捕获窗口。
+    setTimeout(setFaceMaskSourceWindow, 2000, source, newWinTitle);
   }
 
   async function addNew() {
