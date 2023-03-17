@@ -275,42 +275,43 @@ async function shouldUpdate(
   latestVersion: ILatestVersionInfo,
   info: IUpdateInfo,
 ): Promise<string | false> {
-  if (!latestVersion) {
-    console.log('Failed to fetch latest version.');
-    return false;
-  }
+  return false;
+  // if (!latestVersion) {
+  //   console.log('Failed to fetch latest version.');
+  //   return false;
+  // }
 
-  if (semver.eq(info.version, latestVersion.version)) {
-    console.log('Already latest version.');
-    return false;
-  }
+  // if (semver.eq(info.version, latestVersion.version)) {
+  //   console.log('Already latest version.');
+  //   return false;
+  // }
 
-  if (semver.gt(info.version, latestVersion.version)) {
-    // Rollbacks are not currently supported
-    console.log('Latest version is less than current version. Update will not be applied.');
-    return false;
-  }
+  // if (semver.gt(info.version, latestVersion.version)) {
+  //   // Rollbacks are not currently supported
+  //   console.log('Latest version is less than current version. Update will not be applied.');
+  //   return false;
+  // }
 
-  if (!(await isInRolloutGroup(info, latestVersion))) {
-    console.log('User is not in rollout group. Checking for fallback version.');
+  // if (!(await isInRolloutGroup(info, latestVersion))) {
+  //   console.log('User is not in rollout group. Checking for fallback version.');
 
-    // Check if there is a fallback version we can update to
-    if (latestVersion.fallbackVersion) {
-      if (semver.gte(info.version, latestVersion.fallbackVersion)) {
-        console.log('Already on fallback version.');
+  //   // Check if there is a fallback version we can update to
+  //   if (latestVersion.fallbackVersion) {
+  //     if (semver.gte(info.version, latestVersion.fallbackVersion)) {
+  //       console.log('Already on fallback version.');
 
-        return false;
-      }
+  //       return false;
+  //     }
 
-      return latestVersion.fallbackVersion;
-    }
+  //     return latestVersion.fallbackVersion;
+  //   }
 
-    console.log('No fallback is available. Update will not be applied.');
+  //   console.log('No fallback is available. Update will not be applied.');
 
-    return false;
-  }
+  //   return false;
+  // }
 
-  return latestVersion.version;
+  // return latestVersion.version;
 }
 
 /**
