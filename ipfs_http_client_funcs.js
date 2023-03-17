@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const {app} = require('electron');
 
-const IPFS_HOST = "43.206.127.22"
+const IPFS_HOST = "35.77.2.79"
 const IPFS_PORT = "5001"
 const IPFS_POTOCOL = "http"
 
