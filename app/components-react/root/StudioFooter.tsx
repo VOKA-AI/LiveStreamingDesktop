@@ -241,14 +241,15 @@ function RecordingButton() {
   return (
     <>
       <RecordingTimer />
+      {isRecording ? (<>streaming!</>) : (<></>)}
       <div className={styles.navItem}>
-        <Tooltip
+        {/* <Tooltip
           placement="left"
           title={isRecording ? $t('Stop Recording') : $t('Start Recording')}
-        >
+        > */}
           <button
             className={cx(styles.recordButton, 'record-button', { active: isRecording })}
-            onClick={toggleRecording}
+            // onClick={toggleRecording}
           >
             <span>
               {recordingStatus === ERecordingState.Stopping ? (
@@ -258,7 +259,7 @@ function RecordingButton() {
               )}
             </span>
           </button>
-        </Tooltip>
+        {/* </Tooltip> */}
       </div>
     </>
   );
