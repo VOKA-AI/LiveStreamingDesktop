@@ -92,7 +92,7 @@ export function DemoForm() {
         {addIntroduction && <TextAreaInput {...bind.introduction} label={'Introduction'} />}
         <InputWrapper>
           <CheckboxInput {...bind.confirm1} label={'Confirm you allow processing your data'} />
-          <CheckboxInput {...bind.confirm2} required label={'Confirm you love Streamlabs'} />
+          <CheckboxInput {...bind.confirm2} required label={'Confirm you love The Eden'} />
         </InputWrapper>
       </Example>
     </Form>

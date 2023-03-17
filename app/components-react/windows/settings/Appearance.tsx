@@ -137,7 +137,7 @@ export function AppearanceSettings() {
                   marginRight: '5px',
                 }}
               />
-              {$t('Change the look of Streamlabs Desktop with Ultra')}
+              {$t('Change the look of The Eden Desktop with Ultra')}
             </a>
           </div>
         )}
@@ -278,7 +278,7 @@ export function AppearanceSettings() {
       <ObsSettingsSection>
         <CheckboxInput
           {...bind.enableAnnouncements}
-          label={$t('Show announcements for new Streamlabs features and products')}
+          label={$t('Show announcements for new The Eden features and products')}
           className={styles.extraMargin}
         />
       </ObsSettingsSection>

@@ -1,10 +1,10 @@
 {
   "name": "slobs-client",
-  "productName": "Streamlabs Desktop",
-  "description": "Streamlabs streaming software",
+  "productName": "The Eden Desktop",
+  "description": "The Eden streaming software",
   "author": "General Workings, Inc.",
   "license": "GPL-3.0",
-  "version": "1.12.5",
+  "version": "0.0.1",
   "main": "main.js",
   "scripts": {
     "compile": "yarn clear && yarn compile:updater && yarn webpack-cli --progress --config ./webpack.dev.config.js",

@@ -29,7 +29,7 @@ export function ObsImport() {
         <KevinSvg />
         <div>
           {$t(
-            'While we import your settings and scenes from OBS Studio, check out these great features unique to Streamlabs',
+            'While we import your settings and scenes from OBS Studio, check out these great features unique to The Eden',
           )}
         </div>
       </div>

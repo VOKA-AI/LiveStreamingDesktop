@@ -188,7 +188,7 @@ function humanFileSize(bytes, si) {
 }
 
 console.log('=================================');
-console.log('Streamlabs Desktop');
+console.log('The Eden Desktop');
 console.log(`Version: ${process.env.SLOBS_VERSION}`);
 console.log(`OS: ${os.platform()} ${os.release()}`);
 console.log(`Arch: ${process.arch}`);
@@ -208,8 +208,8 @@ app.on('ready', () => {
       // This error code indicates a read only file system
       if (e.code === 'EROFS') {
         dialog.showErrorBox(
-          'Streamlabs Desktop',
-          'Please run Streamlabs Desktop from your Applications folder. Streamlabs Desktop cannot run directly from this disk image.',
+          'The Eden Desktop',
+          'Please run Streamlabs Desktop from your Applications folder. The Eden Desktop cannot run directly from this disk image.',
         );
         app.exit();
       }
@@ -291,7 +291,7 @@ async function startApp() {
   function handleFinishedReport() {
     dialog.showErrorBox(
       'Something Went Wrong',
-      'An unexpected error occured and Streamlabs Desktop must be shut down.\n' +
+      'An unexpected error occured and The Eden Desktop must be shut down.\n' +
         'Please restart the application.',
     );
 
@@ -311,8 +311,8 @@ async function startApp() {
 
     if (submitURL) {
       crashReporter.start({
-        productName: 'streamlabs-obs',
-        companyName: 'streamlabs',
+        productName: 'The Eden-obs',
+        companyName: 'The Eden',
         ignoreSystemCrashHandler: true,
         submitURL,
         extra: {
@@ -359,7 +359,7 @@ async function startApp() {
     show: false,
     frame: false,
     titleBarStyle: 'hidden',
-    title: 'Streamlabs Desktop',
+    title: 'The Eden Desktop',
     backgroundColor: '#17242D',
     webPreferences: {
       nodeIntegration: true,

@@ -8,7 +8,7 @@ const loadingStrings = () => [
   'click IPFS Streaming to start a Decentralized Streaming',
   'add source AR Face Mask to live with face mask',
   // Prime Feature Usage
-  '开机提示',
+  'It may take some time after the live streaming starts to see the latest videos on the website.',
 ];
 
 export default function Loader() {
@@ -26,7 +26,7 @@ export default function Loader() {
     }
     loopRandomText();
     // 修改每条信息显示的时间
-    const interval = setInterval(loopRandomText, 2000);
+    const interval = setInterval(loopRandomText, 3000);
 
     return function cleanup() {
       clearInterval(interval);

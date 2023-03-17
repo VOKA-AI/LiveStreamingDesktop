@@ -243,7 +243,7 @@ export function StreamSettings() {
       {/* account info */}
       {protectedModeEnabled && (
         <div>
-          <h2>{$t('Streamlabs ID')}</h2>
+          <h2>{$t('The Eden ID')}</h2>
           <SLIDBlock />
           <h2>{$t('Stream Destinations')}</h2>
           {platforms.map(platform => (
@@ -399,7 +399,7 @@ function Platform(p: { platform: TPlatform }) {
         {shouldShowPrimaryBtn && (
           <Tooltip
             title={$t(
-              'You cannot unlink the platform you used to sign in to Streamlabs Desktop. If you want to unlink this platform, please sign in with a different platform.',
+              'You cannot unlink the platform you used to sign in to The Eden Desktop. If you want to unlink this platform, please sign in with a different platform.',
             )}
           >
             <Button disabled={true} type="primary">

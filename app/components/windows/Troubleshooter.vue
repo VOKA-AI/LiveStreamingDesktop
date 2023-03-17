@@ -13,7 +13,7 @@
           <span class="fa fa-warning"></span>
           {{ issue.message }}
         </h4>
-        <p>{{ $t(' Streamlabs has detected dropped frames') }} {{ moment(issue.date) }}.<br /></p>
+        <p>{{ $t(' The Eden has detected dropped frames') }} {{ moment(issue.date) }}.<br /></p>
         <h4>{{ $t('What does this mean?') }}</h4>
         <p>
           {{
@@ -46,7 +46,7 @@
           <span class="fa fa-warning"></span>
           {{ issue.message }}
         </h4>
-        <p>{{ $t('Streamlabs has detected skipped frames') }} {{ moment(issue.date) }}.<br /></p>
+        <p>{{ $t('The Eden has detected skipped frames') }} {{ moment(issue.date) }}.<br /></p>
         <h4>
           {{ $t('What does this mean?') }}
         </h4>
@@ -76,14 +76,14 @@
           <span class="fa fa-warning"></span>
           {{ issue.message }}
         </h4>
-        <p>{{ $t('Streamlabs has detected lagged frames') }} {{ moment(issue.date) }}.<br /></p>
+        <p>{{ $t('The Eden has detected lagged frames') }} {{ moment(issue.date) }}.<br /></p>
         <h4>{{ $t('What does this mean?') }}</h4>
         <p>
           {{ $t('Some frames took too long to get rendered.') }}
           {{ $t('Usually the problem is related to your game using up too many GPU resources.') }}
           {{
             $t(
-              'When this happens, Streamlabs does not have any resources left over to render frames.',
+              'When this happens, The Eden does not have any resources left over to render frames.',
             )
           }}
         </p>
