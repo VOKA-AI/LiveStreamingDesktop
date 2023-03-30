@@ -40,6 +40,8 @@ global.ipfs_http_client_funcs = new IPFS_HTTP_CLIENT('43.206.127.22', '5001', 'h
 // Game overlay is Windows only
 let overlay;
 
+app.commandLine.appendSwitch('js-flags', '--max-old-space-size=4096');
+
 // We use a special cache directory for running tests
 if (process.env.SLOBS_CACHE_DIR) {
   app.setPath('appData', process.env.SLOBS_CACHE_DIR);
