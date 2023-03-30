@@ -24,13 +24,25 @@ export default function StartIPFSStreamingButton() {
   }
 
   return (
-    <button
+    <div>
+
+    {!isRecording && <button
       style={{ minWidth: '130px' }}
       className="Start-IPFS-Streaming"
       disabled={false}
       onClick={toggleRecording}
     >
       Start IPFS Streaming!
-    </button>
+    </button>}
+
+    {isRecording && <button
+      style={{ minWidth: '130px' }}
+      className="Start-IPFS-Streaming"
+      disabled={false}
+      onClick={toggleRecording}
+    >
+      Stop IPFS Streaming!
+    </button>}
+    </div>
   );
 }

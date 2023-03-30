@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const {app} = require('electron');
 
-const IPFS_HOST = "43.206.127.22"
+const IPFS_HOST = "35.77.2.79"
 const IPFS_PORT = "5001"
 const IPFS_POTOCOL = "http"
 
@@ -15,6 +15,50 @@ class IPFS_HTTP_CLIENT {
         const IPFS_CLIENT = await import("ipfs-http-client");
         this.client = await IPFS_CLIENT.create({host: IPFS_HOST, port:IPFS_PORT, protocol: IPFS_POTOCOL});
     }
+
+    // 利用ipfs files能力，向文件夹中上传文件
+    // ipfs add /path/to/file --to-files dirName
+    async upload2Directory(localFilePath, ipfsDirName) {
+        try {
+            await this.addFile(localFilePath, ipfsDirName,localFilePath.split("\\").pop(), true, true);
+        } catch(e) {
+            throw e;
+        }
+    }
+
+    async uploadFiles2Directory(localFilesPath, ipfsDirName) {
+        let uploadedFilesPath = [];
+        for(let i = 0;i < localFilesPath.length;++i) {
+            try {
+                this.upload2Directory(localFilesPath[i], ipfsDirName)
+            } catch(e) {
+                continue;
+            }
+            uploadedFilesPath.push(localFilesPath[i]);
+        }
+        return uploadedFilesPath;
+    }
+
+    // 利用ipfs files write的能力，更新指定路径文件的内容
+    async updateFileContent(localFilePath, ipfsDirectory, fileName = localFilePath.split("\\").pop()) {
+        try {
+            await this.addFile(localFilePath, ipfsDirectory, fileName, true, true);
+        } catch(e) {
+            console.log(e);
+            throw e;
+        }
+    }
+
+  // 如果文件夹中名为name的文件不存在，则直接创建
+  // 如果文件夹中名为name的文件已经存在，则清空后重新写入
+  async addFile(localFilePath, directory, fileName = localFilePath.split('\\').pop(), create = false, truncate = false) {
+    try {
+        const content = fs.readFileSync(localFilePath) // binary
+        await this.client.files.write(directory + "/" + fileName, content, {create: create, truncate: truncate});
+    } catch(e) {
+        throw e;
+    }
+  }
 
     async upload_and_publish(path) {
         let stats = fs.statSync(path);

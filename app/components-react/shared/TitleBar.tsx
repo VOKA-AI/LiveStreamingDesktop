@@ -66,7 +66,7 @@ export default function TitleBar(props: { windowId: string }) {
       })}
     >
       {!primeTheme && !isMac && (
-        <img className={styles.titlebarIcon} src={require('../../../media/images/icon.ico')} />
+        <img className={styles.titlebarIcon} src={require('../../../media/images/icon.png')} />
       )}
       {primeTheme && !isMac && <KevinSvg className={styles.titlebarIcon} />}
       <div className={styles.titlebarTitle} onDoubleClick={maximize}>

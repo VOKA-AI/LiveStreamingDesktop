@@ -1,9 +1,9 @@
 const signtool = require('signtool');
 
 const base = {
-  appId: 'com.streamlabs.slobs',
-  productName: 'Streamlabs Desktop',
-  icon: 'media/images/icon.ico',
+  appId: 'com.theeden.slobs',
+  productName: 'The Eden Desktop',
+  icon: 'media/images/icon.png',
   //npmRebuild: false,
   asar: false,
   files: [
@@ -39,7 +39,7 @@ const base = {
     url: 'https://slobs-cdn.streamlabs.com',
   },
   win: {
-    executableName: 'Streamlabs OBS',
+    executableName: 'The Eden',
     extraFiles: ['LICENSE', 'AGREEMENT', 'shared-resources/**/*', '!shared-resources/README'],
     rfc3161TimeStampServer: 'http://timestamp.digicert.com',
     timeStampServer: 'http://timestamp.digicert.com',

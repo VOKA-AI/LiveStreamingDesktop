@@ -23,17 +23,23 @@ export function setMeshMorphTargetInfluences(meshWithMorphTarget: any, blandshap
 export function modelUpdateModelPosition(model:any, position:any) {
   
     const offsetX = -320; // 变大，模型往右移动，变小模型往左移动
+    const offsetY = 100; // 变大，模型往下移动，变小模型往上移动 160
+    const offsetZ = -40; //变大，模型往后移动，变小往前移动， -40；
     var x = (position['x'] + offsetX) / 20;
-    var y = -(position['y'] + 160) / 60;
-    var z = (position['z'] - 40) / 5;
+    var y = -(position['y'] + offsetY) / 60;
+    var z = (position['z'] + offsetZ) / 5; 
     damp3(model.position, [x, y, z], 0.25, _delta * 5);
 }
 
 export function modelUpdateModelRotation(model: any, rotation:any) {
   // set rotation and apply it to position
-  var rx = -(rotation['x'] - 5) / 50;
-  var ry = -rotation['y'] / 50;
-  var rz = rotation['z'] / 50;
+  var rx = -(rotation['x'] - 5) / 50; // 绕x轴旋转
+  var ry = -rotation['y'] / 50; // 绕y轴旋转, 0时正对前方
+  var rz = rotation['z'] / 50; // 绕z轴旋转
+
+  // 限制范围
+  //ry = ry > 0.3 ? 0.3 : ry;
+  //ry = ry < -0.3 ? -0.3 : ry;
   dampE(model.rotation, [rx, ry, rz], 0.25, _delta * 3)
 }
 

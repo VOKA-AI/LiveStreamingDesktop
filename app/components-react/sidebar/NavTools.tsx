@@ -103,7 +103,7 @@ export default function SideNav() {
 
   return (
     <>
-      <Menu
+      {/* <Menu
         key={ENavName.BottomNav}
         forceSubMenuRender
         mode="inline"
@@ -193,7 +193,7 @@ export default function SideNav() {
         showModal={showModal}
         handleAuth={handleAuth}
         handleShowModal={handleShowModal}
-      />
+      /> */}
     </>
   );
 }

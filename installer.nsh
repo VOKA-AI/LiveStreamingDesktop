@@ -6,7 +6,7 @@
 
     ${If} $1 != '0' 
       ${If} $1 != '3010'
-        MessageBox MB_OK|MB_ICONEXCLAMATION 'WARNING: Streamlabs was unable to install the latest Visual C++ Redistributable package from Microsoft.'
+        MessageBox MB_OK|MB_ICONEXCLAMATION 'WARNING: The Eden was unable to install the latest Visual C++ Redistributable package from Microsoft.'
       ${EndIf}
     ${EndIf}
 
@@ -15,7 +15,7 @@
     # ${EndIf}
 
   ${Else}
-      MessageBox MB_OK|MB_ICONEXCLAMATION 'WARNING: Streamlabs was unable to download the latest Visual C++ Redistributable package from Microsoft.'
+      MessageBox MB_OK|MB_ICONEXCLAMATION 'WARNING: The Eden was unable to download the latest Visual C++ Redistributable package from Microsoft.'
   ${EndIf}
 
   FileOpen $0 "$INSTDIR\installername" w

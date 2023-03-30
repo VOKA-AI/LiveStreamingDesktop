@@ -27,7 +27,7 @@ export function MultistreamingSettings() {
       <ObsSettingsSection title={$t('Multistreaming')}>
         {shouldShowPrime ? (
           <div style={{ marginBottom: '16px' }}>
-            <Translate message="Stream to multiple platforms at once with <ultra>Streamlabs Ultra</ultra>.">
+            <Translate message="Stream to multiple platforms at once with <ultra>The Eden Ultra</ultra>.">
               <u slot="ultra" />
             </Translate>
             <ButtonHighlighted

@@ -33,7 +33,7 @@ function SupportLinks() {
     <ObsSettingsSection title={$t('Support Links')}>
       <div className="input-container">
         <a className="link" onClick={() => openLink('https://howto.streamlabs.com/')}>
-          <i className="icon-question" /> <span>{$t('Streamlabs Support')}</span>
+          <i className="icon-question" /> <span>{$t('The Eden Support')}</span>
         </a>
       </div>
       <div className="input-container">
@@ -64,7 +64,7 @@ function DiagnosticReport() {
           content: (
             <div>
               {$t(
-                'The diagnostic report was securely uploaded, and the Report ID below has been copied to your clipboard. Please provide the Report ID to the Streamlabs Streamer Success Team.',
+                'The diagnostic report was securely uploaded, and the Report ID below has been copied to your clipboard. Please provide the Report ID to the The Eden Streamer Success Team.',
               )}
               <TextInput
                 readOnly
@@ -89,7 +89,7 @@ function DiagnosticReport() {
           className: 'react',
           title: $t('Error Uploading Diagnostic Report'),
           content: $t(
-            'There was an error uploading the diagnostic report. Please try again, and let the Streamlabs Streamer Success team know if the issue persists.',
+            'There was an error uploading the diagnostic report. Please try again, and let the The Eden Streamer Success team know if the issue persists.',
           ),
         });
       })
@@ -99,7 +99,7 @@ function DiagnosticReport() {
   return (
     <ObsSettingsSection title={$t('Diagnostic Report')}>
       {$t(
-        'The diagnostic report is an automatically generated report that contains information about your system and configuration. Clicking the upload button below will generate and securely transmit a diagnostic report to the Streamlabs team.',
+        'The diagnostic report is an automatically generated report that contains information about your system and configuration. Clicking the upload button below will generate and securely transmit a diagnostic report to the The Eden team.',
       )}
       <Button style={{ margin: '20px 0' }} onClick={uploadReport} disabled={uploading}>
         <i
@@ -153,7 +153,7 @@ function CacheSettings() {
     <ObsSettingsSection title={$t('Cache Directory')}>
       <p>
         {$t(
-          'Deleting your cache directory will cause you to lose some settings. Do not delete your cache directory unless instructed to do so by a Streamlabs staff member.',
+          'Deleting your cache directory will cause you to lose some settings. Do not delete your cache directory unless instructed to do so by a The Eden staff member.',
         )}
       </p>
       <div className="input-container">

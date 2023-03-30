@@ -20,6 +20,7 @@ interface IHelpTipProps {
 }
 
 export default function HelpTip(props: React.PropsWithChildren<IHelpTipProps>) {
+  // 这里时帮助弹框
   const p = { tipPosition: 'left', arrowPosition: 'top', ...props };
 
   const { DismissablesService } = Services;

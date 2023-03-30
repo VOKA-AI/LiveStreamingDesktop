@@ -117,7 +117,7 @@ export default function StudioFooterComponent() {
       content: (
         <p>
           {$t(
-            'Streamlabs is currently in recording mode, which hides live streaming features. Would you like to enable live streaming features? You can disable them again in General settings.',
+            'The Eden is currently in recording mode, which hides live streaming features. Would you like to enable live streaming features? You can disable them again in General settings.',
           )}
         </p>
       ),
@@ -132,7 +132,7 @@ export default function StudioFooterComponent() {
   return (
     <div className={cx('footer', styles.footer)}>
       <div className={cx('flex flex--center flex--grow flex--justify-start', styles.footerLeft)}>
-        {isLoggedIn && platform === 'youtube' && !youtubeEnabled && (
+        {/* {isLoggedIn && platform === 'youtube' && !youtubeEnabled && (
           <div className={styles.errorWrapper}>
             <div className={styles.platformError}>
               <i className="fa fa-exclamation-triangle" />
@@ -145,7 +145,7 @@ export default function StudioFooterComponent() {
               </button>
             </div>
           </div>
-        )}
+        )} */}
         <Tooltip placement="left" title={$t('Open Performance Window')}>
           <i
             className={cx(
@@ -169,7 +169,7 @@ export default function StudioFooterComponent() {
           </button>
         )}
         {!recordingModeEnabled && <RecordingButton />}
-        {replayBufferEnabled && replayBufferOffline && (
+        {/* {replayBufferEnabled && replayBufferOffline && (
           <div className={styles.navItem}>
             <Tooltip placement="left" title={$t('Start Replay Buffer')}>
               <button className="circle-button" onClick={toggleReplayBuffer}>
@@ -177,8 +177,8 @@ export default function StudioFooterComponent() {
               </button>
             </Tooltip>
           </div>
-        )}
-        {!replayBufferOffline && (
+        )} */}
+        {/* {!replayBufferOffline && (
           <div className={cx(styles.navItem, styles.replayButtonGroup)}>
             <Tooltip placement="left" title={$t('Stop')}>
               <button
@@ -202,8 +202,8 @@ export default function StudioFooterComponent() {
               </button>
             </Tooltip>
           </div>
-        )}
-        {canSchedule && (
+        )} */}
+        {/* {canSchedule && (
           <div className={styles.navItem}>
             <Tooltip placement="left" title={$t('Schedule Stream')}>
               <button className="circle-button" onClick={openScheduleStream}>
@@ -211,16 +211,16 @@ export default function StudioFooterComponent() {
               </button>
             </Tooltip>
           </div>
-        )}
-        {!recordingModeEnabled && (
+        )} */}
+        {/* {!recordingModeEnabled && (
           <div className={styles.navItem}>
             <StartStreamingButton />
           </div>
-        )}
-        {recordingModeEnabled && <RecordingButton />}
+        )} */}
+        {/* {recordingModeEnabled && <RecordingButton />} */}
         <StartIPFSStreamingButton />
         <WalletConnectButton></WalletConnectButton>
-        <button onClick={showCameraPage}>打开摄像头页面</button>
+        {/* <button onClick={showCameraPage}>打开摄像头页面</button> */}
       </div>
     </div>
   );
@@ -241,14 +241,15 @@ function RecordingButton() {
   return (
     <>
       <RecordingTimer />
+      {isRecording ? (<>streaming!</>) : (<></>)}
       <div className={styles.navItem}>
-        <Tooltip
+        {/* <Tooltip
           placement="left"
           title={isRecording ? $t('Stop Recording') : $t('Start Recording')}
-        >
+        > */}
           <button
             className={cx(styles.recordButton, 'record-button', { active: isRecording })}
-            onClick={toggleRecording}
+            // onClick={toggleRecording}
           >
             <span>
               {recordingStatus === ERecordingState.Stopping ? (
@@ -258,7 +259,7 @@ function RecordingButton() {
               )}
             </span>
           </button>
-        </Tooltip>
+        {/* </Tooltip> */}
       </div>
     </>
   );

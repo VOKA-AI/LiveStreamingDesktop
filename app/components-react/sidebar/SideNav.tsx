@@ -98,7 +98,7 @@ export default function SideNav() {
           <NavTools />
         </Scrollable>
 
-        <LoginHelpTip />
+        {/* <LoginHelpTip /> */}
       </Sider>
 
       {/* this button toggles the menu open and close */}

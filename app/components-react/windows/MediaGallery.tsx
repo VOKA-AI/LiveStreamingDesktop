@@ -103,7 +103,7 @@ export default function MediaGallery() {
 
   function upgradeToPrime() {
     MagicLinkService.linkToPrime('slobs-media-gallery');
-    message.warning($t('You must have Streamlabs Ultra to use this media'), 5);
+    message.warning($t('You must have The Eden Ultra to use this media'), 5);
   }
 
   const filteredGallery = galleryInfo?.files.filter(file => {

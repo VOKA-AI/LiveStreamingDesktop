@@ -18,7 +18,7 @@ export function StreamingOrRecording() {
 
     if (active === 'recording') {
       const result = await confirmAsync({
-        title: $t('Streamlabs will be optimized for recording'),
+        title: $t('The Eden will be optimized for recording'),
         content: (
           <p>
             {$t(
@@ -46,8 +46,8 @@ export function StreamingOrRecording() {
         <img src={$i('images/onboarding/splash.png')} />
       </div>
       <div className={styles.titleContainer}>
-        <h1 className={styles.title}>{$t('Welcome to Streamlabs')}</h1>
-        <h3 className={styles.subtitle}>{$t('How do you plan to use Streamlabs Desktop?')}</h3>
+        <h1 className={styles.title}>{$t('Welcome to The Eden')}</h1>
+        <h3 className={styles.subtitle}>{$t('How do you plan to use The Eden Desktop?')}</h3>
         <div className={styles.optionContainer}>
           <div
             className={cx(styles.option, { [styles.active]: active === 'streaming' })}

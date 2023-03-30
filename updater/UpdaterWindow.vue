@@ -17,7 +17,7 @@ export default {
   data() {
     return {
       message: 'Downloading Updates',
-      subMessage: 'Streamlabs Desktop is downloading updates. This can take several minutes.',
+      subMessage: 'The Eden Desktop is downloading updates. This can take several minutes.',
     };
   },
 };
