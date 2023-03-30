@@ -2,7 +2,7 @@ const signtool = require('signtool');
 
 const base = {
   appId: 'com.theeden.slobs',
-  productName: 'The Eden',
+  productName: 'The Eden Desktop',
   icon: 'media/images/icon.png',
   //npmRebuild: false,
   asar: false,
