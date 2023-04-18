@@ -91,8 +91,8 @@ export class IPFSStreamingService extends Service {
         }
         this.ipfs_upload_timer = null
         this.streamingService.toggleRecording()
-        this.resetSettings()
         try {
+            this.resetSettings()
             fs.rmSync(IPFS_STREAM_TMP_DIR, {recursive: true, force: true});
         } catch(e) {
             // delete tmprary directory failed
@@ -133,7 +133,14 @@ class HLSStreamFilesManager {
 
     getAllTsFilesNeedUpload() {
         // 现在时直接读文件夹，以后也可以改为都"m3u8"文件，防止有多余ts
-        let files = fs.readdirSync(this.base_path);
+        let files:any[] = [];
+        try {
+            files = fs.readdirSync(this.base_path);
+        }
+        catch(e) {
+            console.log(e);
+            return [];
+        }
         let ts_files = [];
         for(let i = 0;i < files.length;++i) {
             const file_name = files[i];
@@ -171,7 +178,13 @@ class HLSStreamFilesManager {
     }
 
     getAllm3u8File() {
-        let files = fs.readdirSync(this.base_path);
+        let files: any[] = [];
+        try {
+            files = fs.readdirSync(this.base_path);
+        } catch(e) {
+            console.log(e);
+            return [];
+        }
         let m3u8_files = [];
         for(let i = 0;i < files.length;++i) {
             const file_name = files[i];
@@ -183,7 +196,12 @@ class HLSStreamFilesManager {
     }
 
     getLatestM3u8File() {
-        let files = fs.readdirSync(this.base_path);
+        let files: any[];
+        try {
+            files = fs.readdirSync(this.base_path);
+        } catch(e) {
+            return ""
+        }
         for(let i = 0;i < files.length;++i) {
             if(files[i].split(".")[1] === "m3u8") {
                 return files[i];
