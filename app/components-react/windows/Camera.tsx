@@ -73,8 +73,8 @@ export default function CameraWindows() {
         light1.position.set(0, 0, 25).normalize();
         scene.add(light1);
 
-        const light2 = new AmbientLight(0xffffff, 0.1);
-        //light1.position.set(0, 25, 25).normalize();
+        const light2 = new AmbientLight(0xffffff);
+        light1.position.set(0, 0, 25).normalize();
         //light2.position.set(- 1, - 1, - 1).normalize();
         scene.add(light2);
 
