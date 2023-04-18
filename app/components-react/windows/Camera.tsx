@@ -19,7 +19,8 @@ import {
     sRGBEncoding,
  } from "three";
  import { GLTF, GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
- import { getMorphTargetMesh, setMeshMorphTargetInfluences, modelUpdateModelPosition, modelUpdateModelRotation } from 'services/threejs/ModelRender'
+ import ModelRender from 'services/threejs/ModelRender'
+
 
 
 const mediapipeConfigOptions = {
@@ -41,6 +42,7 @@ export default function CameraWindows() {
     var meshWithMorphTarget: any;
     var mixer: any;
     var riggedFace:any;
+    var model_render: ModelRender;
 
     function onResults(results: any) {
         if(results.multiFaceLandmarks.length < 1) {
@@ -80,7 +82,7 @@ export default function CameraWindows() {
         // TODO: 打包后，model好像会坏掉，删除重新接入model，会
         //loader.load('media/models/Duck3.glb', function (gltf: any) {
         loader.load('https://github.com/VOKA-AI/react-face-mask/blob/main/public/Duck2.glb?raw=true', function (gltf: any) {
-            meshWithMorphTarget = getMorphTargetMesh(gltf)
+            meshWithMorphTarget = model_render.getMorphTargetMesh(gltf)
             mesh = gltf.scene
             mesh.scale.set(13, 13, 13);
             scene.add(mesh)
@@ -98,11 +100,9 @@ export default function CameraWindows() {
             if(riggedFace && mesh && mesh.children && mesh.children.length > 0) {
             //console.log(meshWithMorphTarget.morphTargetInfluences)
             //setMeshMorphTargetInfluences(meshWithMorphTarget, {'mouse':((meshWithMorphTarget.morphTargetInfluences[meshWithMorphTarget.morphTargetDictionary["mouse"]] * 10 + 1) % 10)/10})
-            setMeshMorphTargetInfluences(meshWithMorphTarget, {'eye-R':1 - riggedFace.eye.r,'eye-L':1 - riggedFace.eye.l, 'eyes-_down': 0, 'mouse':riggedFace.mouth.shape.A});
+            model_render.setMeshMorphTargetInfluences(meshWithMorphTarget, {'eye-R':1 - riggedFace.eye.r,'eye-L':1 - riggedFace.eye.l, 'eyes-_down': 0, 'mouse':riggedFace.mouth.shape.A});
 
-            modelUpdateModelPosition(mesh, { 'x': riggedFace.head.position.x, 'y': riggedFace.head.position.y, 'z': riggedFace.head.position.z });
-
-            modelUpdateModelRotation(mesh, { 'x': riggedFace.head.degrees.x, 'y': riggedFace.head.degrees.y, 'z': riggedFace.head.degrees.z });
+            model_render.modelUpdate(mesh, riggedFace);
             }
             renderer.render(scene, camera);
         }
@@ -135,6 +135,7 @@ export default function CameraWindows() {
     }
 
     useEffect(() => {
+        model_render = new ModelRender()
         createThree()
         const faceMesh = new FaceMesh({
               locateFile: (file) => {
