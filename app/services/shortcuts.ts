@@ -8,6 +8,8 @@ import { NavigationService } from './navigation';
 
 type TShortcutHandler = () => void;
 
+// 可以通过这个方法注册快捷键，快捷键会在全局（多个窗口）
+// 但好像只能用在StatefulService的类中
 // Only works on singletons
 export function shortcut(key: string) {
   return function (target: any, methodName: string, descriptor: PropertyDescriptor) {
