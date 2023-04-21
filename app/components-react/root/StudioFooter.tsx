@@ -111,6 +111,21 @@ export default function StudioFooterComponent() {
     );
   }
 
+  function showChatPage() {
+    WindowsService.createOneOffWindow(
+      {
+        componentName: 'ChatIPFS',
+        title: $t('FrankerFaceZ Settings'),
+        queryParams: {},
+        size: {
+          width: 800,
+          height: 800,
+        },
+      },
+      'chat',
+    );
+  }
+
   async function showRecordingModeDisableModal() {
     const result = await confirmAsync({
       title: $t('Enable Live Streaming?'),
@@ -220,7 +235,7 @@ export default function StudioFooterComponent() {
         {/* {recordingModeEnabled && <RecordingButton />} */}
         <StartIPFSStreamingButton />
         <WalletConnectButton></WalletConnectButton>
-        {/* <button onClick={showCameraPage}>打开摄像头页面</button> */}
+        <button onClick={showChatPage}>打开聊天页面</button>
       </div>
     </div>
   );
