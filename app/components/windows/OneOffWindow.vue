@@ -37,6 +37,8 @@
 
 .child-window-titlebar {
   flex-shrink: 0;
+  -webkit-user-select: none;
+  -webkit-app-region: drag;
 }
 
 .spinner-spacer {
