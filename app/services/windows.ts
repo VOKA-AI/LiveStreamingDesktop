@@ -13,6 +13,7 @@ import * as remote from '@electron/remote';
 import Main from 'components/windows/Main.vue';
 import Settings from 'components/windows/settings/Settings.vue';
 import FFZSettings from 'components/windows/FFZSettings.vue';
+import ChatIPFS from 'components/windows/ChatIPFS.vue';
 import SceneTransitions from 'components/windows/SceneTransitions.vue';
 import {
   NameFolder,
@@ -145,6 +146,7 @@ export function getComponents() {
     SourceShowcase,
     RecordingHistory,
     CameraWindows,
+    ChatIPFS,
   };
 }
 
