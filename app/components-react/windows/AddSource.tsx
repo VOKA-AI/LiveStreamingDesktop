@@ -146,7 +146,7 @@ export default function AddSource() {
     return tmpWintowTitle
   }
 
-  function setFaceMaskSourceWindow(source: ISourceApi, winTitle: string) {
+  function setWinCaptureSourceWindowByTitle(source: ISourceApi, winTitle: string) {
     // 正则表达式：以winTitle开头 & 以electron.exe结尾
     //const reg: RegExp = new RegExp("^(" + winTitle + ').*(electron.exe)$')
     const reg: RegExp = new RegExp("^(" + winTitle + ').*')
@@ -213,7 +213,52 @@ export default function AddSource() {
    // TODO 利用延时来保证Face Mask窗口已经显示，不够准确。
    // 测试时，延迟时间改为1秒，就会出现捕获窗口失败的情况
    // 因此，应该使用回调的方式确保成功捕获窗口。
-    setTimeout(setFaceMaskSourceWindow, 2000, source, newWinTitle);
+    setTimeout(setWinCaptureSourceWindowByTitle, 2000, source, newWinTitle);
+  }
+
+  function showIPFSChatPage() {
+    const id = uuid()
+    const tmpWintowTitle = 'ipfs_chat_id_123';
+    // createOneOffWindow中winID部分会决定是否显示titleBar
+    cameraWinId = WindowsService.createOneOffWindow(
+      {
+        componentName: 'ChatIPFS',
+        size: {
+          width: 600,
+          height: 800,
+        },
+      },
+      'IPFSChat',
+      tmpWintowTitle,
+    );
+    close(); // 关闭source创建window
+    //const mainWindow = Utils.getMainWindow();
+    //mainWindow.moveTop()
+    return tmpWintowTitle
+  }
+
+  async function addNewIPFSChatSource(settings: Dictionary<any>) {
+    if(!activeScene) {
+      return;
+    }
+    const newWinTitle = showIPFSChatPage()
+    const item = await EditorCommandsService.actions.return.executeCommand(
+      'CreateNewItemCommand',
+      activeScene.id,
+      name,
+      'window_capture',
+      settings,
+      {
+        sourceAddOptions: {
+          propertiesManager: sourceAddOptions.propertiesManager,
+          propertiesManagerSettings: sourceAddOptions.propertiesManagerSettings,
+          guestCamStreamId: sourceAddOptions.guestCamStreamId,
+        },
+      },
+      'ipfs_chat',
+    );
+    const source = item?.source;
+    setTimeout(setWinCaptureSourceWindowByTitle, 2000, source, newWinTitle);
   }
 
   async function addNew() {
@@ -239,6 +284,10 @@ export default function AddSource() {
       }
       if (sourceType === "ar_face_mask") {
         addNewFaceMaskSource(settings);
+        return;
+      }
+      if (sourceType === "ipfs_chat") {
+        addNewIPFSChatSource(settings);
         return;
       }
       const item = await EditorCommandsService.actions.return.executeCommand(

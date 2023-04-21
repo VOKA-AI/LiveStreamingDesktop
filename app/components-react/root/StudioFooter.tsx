@@ -115,14 +115,15 @@ export default function StudioFooterComponent() {
     WindowsService.createOneOffWindow(
       {
         componentName: 'ChatIPFS',
-        title: $t('FrankerFaceZ Settings'),
+        //title: $t('IPFS Chat'),
         queryParams: {},
         size: {
-          width: 800,
+          width: 600,
           height: 800,
         },
       },
-      'chat',
+      'IPFSChat',
+      'ipfs_chat_id_123',
     );
   }
 

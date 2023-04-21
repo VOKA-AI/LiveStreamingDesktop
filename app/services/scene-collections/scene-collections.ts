@@ -95,6 +95,7 @@ export class SceneCollectionsService extends Service implements ISceneCollection
   collectionUpdated = new Subject<ISceneCollectionsManifestEntry>();
   collectionInitialized = new Subject<void>();
   private cameraWinId = "";
+  private ipfsChatWinId = "";
 
   /**
    * Whether a valid collection is currently loaded.
@@ -468,7 +469,7 @@ export class SceneCollectionsService extends Service implements ISceneCollection
     return this.stateService.activeCollection;
   }
 
-  setFaceMaskSourceWindow(source: ISourceApi, winTitle: string) {
+  setWinCaptureSourceWindowByTitle(source: ISourceApi, winTitle: string) {
     // 正则表达式：以winTitle开头 & 以electron.exe结尾
     const reg: RegExp = new RegExp("^(" + winTitle + ').*')
     const beforeFormData = source.getPropertiesFormData();
@@ -527,6 +528,24 @@ export class SceneCollectionsService extends Service implements ISceneCollection
     return tmpWintowTitle
   }
 
+  showIPFSChatPage() {
+    const id = uuid()
+    const tmpWintowTitle = 'ipfs_chat_id_123';
+    // createOneOffWindow中winID部分会决定是否显示titleBar
+    this.ipfsChatWinId = this.windowsService?.createOneOffWindow(
+      {
+        componentName: 'ChatIPFS',
+        size: {
+          width: 600,
+          height: 800,
+        },
+      },
+      'IPFSChat',
+      tmpWintowTitle,
+    );
+    return tmpWintowTitle
+  }
+
   /* PRIVATE ----------------------------------------------------- */
 
   /**
@@ -579,7 +598,12 @@ export class SceneCollectionsService extends Service implements ISceneCollection
           if(item.realType === 'ar_face_mask') {
             // start AR Face Mask Window & set window capture to it
             const winTitle = this.showCameraPage();
-            setTimeout(this.setFaceMaskSourceWindow, 2000, this.sourcesService.views.getSource(item.sourceId), winTitle)
+            setTimeout(this.setWinCaptureSourceWindowByTitle, 2000, this.sourcesService.views.getSource(item.sourceId), winTitle)
+          }
+          if(item.realType === 'ipfs_chat') {
+            // start AR Face Mask Window & set window capture to it
+            const winTitle = this.showIPFSChatPage();
+            setTimeout(this.setWinCaptureSourceWindowByTitle, 2000, this.sourcesService.views.getSource(item.sourceId), winTitle)
           }
         })
       })

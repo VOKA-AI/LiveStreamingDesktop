@@ -93,6 +93,7 @@ export const windowsSources: TSourceType[] = [
   'mediasoupconnector',
   'wasapi_process_output_capture',
   'ar_face_mask',
+  'ipfs_chat'
 ];
 
 /**
@@ -629,6 +630,7 @@ export class SourcesService extends StatefulService<ISourcesState> {
     // 'scene' is not an obs input type so we have to set it manually
     availableAllowlistedTypes.push({ description: 'Scene', value: 'scene' });
     availableAllowlistedTypes.push({ description: 'AR Face Mask', value: 'ar_face_mask' });
+    availableAllowlistedTypes.push({ description: 'IPFS Chat', value: 'ipfs_chat' });
 
     return availableAllowlistedTypes;
   }

@@ -139,6 +139,7 @@ export type TSourceType =
   | 'soundtrack_source'
   | 'mediasoupconnector'
   | 'ar_face_mask'
+  | 'ipfs_chat'
   | 'wasapi_process_output_capture';
 
 // Register new properties managers here

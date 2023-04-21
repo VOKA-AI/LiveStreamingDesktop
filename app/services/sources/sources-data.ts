@@ -87,6 +87,14 @@ export const SourceDisplayData = (): { [key: string]: ISourceDisplayData } => ({
     icon: 'icon-editor-9',
     shortDesc: $t('aaaaaaa'),
   },
+  ipfs_chat: {
+    name: $t('IPFS Chat Room'),
+    description: $t("IPFS Chat Room"),
+    demoFilename: 'window-capture.png',
+    supportList: [$t('111 supportList')],
+    icon: 'icon-editor-9',
+    shortDesc: $t('aaaaaaa'),
+  },
   game_capture: {
     name: $t('Game Capture'),
     description: $t("Capture a game you're playing on your computer."),
