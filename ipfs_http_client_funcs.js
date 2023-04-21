@@ -1,6 +1,8 @@
 const fs = require('fs');
 const path = require('path');
 const {app} = require('electron');
+const textEncoding = require('text-encoding');
+const TextDecoder = textEncoding.TextDecoder;
 
 const IPFS_HOST = "35.77.2.79"
 const IPFS_PORT = "5001"
@@ -56,8 +58,27 @@ class IPFS_HTTP_CLIENT {
         const content = fs.readFileSync(localFilePath) // binary
         await this.client.files.write(directory + "/" + fileName, content, {create: create, truncate: truncate});
     } catch(e) {
+        await this.addFile(localFilePath, directory, fileName, create, truncate);
+        console.log("-------------------------------")
+        console.log(e)
+        console.log("-------------------------------")
         throw e;
     }
+  }
+
+  async pubsub_send(topic, msg) {
+    await this.client.pubsub.publish(topic,msg);
+  }
+
+  async pubsub_sub(topic, callback) {
+    await this.client.pubsub.subscribe(topic, msg => {
+        var string = new TextDecoder().decode(msg.data);
+        callback(string);
+    })
+  }
+
+  async pubsub_unsub(topic) {
+    await this.client.pubsub.unsubscribe(topic)
   }
 
     async upload_and_publish(path) {

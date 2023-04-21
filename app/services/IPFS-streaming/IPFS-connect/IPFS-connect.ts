@@ -93,4 +93,28 @@ export class IPFSConnect {
         return ipns_name
     }
 
+    async pubsub_send(topic:string, msg:string) {
+        try {
+            await remote.getGlobal("ipfs_http_client_funcs").pubsub_send(topic, msg);
+        } catch(e) {
+            throw e;
+        }
+    }
+
+    async pubsub_sub(topic:string, callback:Function) {
+        try {
+            await remote.getGlobal("ipfs_http_client_funcs").pubsub_sub(topic, callback);
+        } catch(e) {
+            throw e;
+        }
+    }
+
+    async pubsub_unsub(topic:string) {
+        try {
+            await remote.getGlobal("ipfs_http_client_funcs").pubsub_unsub(topic);
+        } catch(e) {
+            throw e;
+        }
+    }
+
 }

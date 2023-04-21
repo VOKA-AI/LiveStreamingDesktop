@@ -4639,7 +4639,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@web3modal/ethereum@npm:^2.1.1":
+"@web3modal/ethereum@npm:2.1.1":
   version: 2.1.1
   resolution: "@web3modal/ethereum@npm:2.1.1"
   peerDependencies:
@@ -4649,7 +4649,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@web3modal/react@npm:^2.1.1":
+"@web3modal/react@npm:2.1.1":
   version: 2.1.1
   resolution: "@web3modal/react@npm:2.1.1"
   dependencies:
@@ -17682,8 +17682,8 @@ __metadata:
     "@vue/babel-preset-jsx": 1.2.4
     "@walletconnect/jsonrpc-types": ^1.0.2
     "@walletconnect/types": ^2.4.3
-    "@web3modal/ethereum": ^2.1.1
-    "@web3modal/react": ^2.1.1
+    "@web3modal/ethereum": 2.1.1
+    "@web3modal/react": 2.1.1
     abort-controller: ^3.0.0
     amazon-s3-uri: 0.0.3
     antd: 4.16.7
@@ -17790,6 +17790,7 @@ __metadata:
     stylelint-config-standard: 18.2.0
     tasklist: ^3.1.1
     terser-webpack-plugin: 5.0.3
+    text-encoding: ^0.7.0
     three: ^0.150.1
     traverse: 0.6.6
     tree-kill: 1.2.2
@@ -18849,6 +18850,13 @@ __metadata:
   version: 1.0.2
   resolution: "text-encoding-utf-8@npm:1.0.2"
   checksum: ec4c15d50e738c5dba7327ad432ebf0725ec75d4d69c0bd55609254c5a3bc5341272d7003691084a0a73d60d981c8eb0e87603676fdb6f3fed60f4c9192309f9
+  languageName: node
+  linkType: hard
+
+"text-encoding@npm:^0.7.0":
+  version: 0.7.0
+  resolution: "text-encoding@npm:0.7.0"
+  checksum: b6109a843fb1b8748b32e1ecd6df74d370f46c13ac136bcb6ca15db70209bb0b8ec1f296ebb4b0dd9961150e205dcc044b89f8cf7657f6faef78c7569a2a81bc
   languageName: node
   linkType: hard
 
