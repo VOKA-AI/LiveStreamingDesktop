@@ -30,6 +30,7 @@ const {
   dialog,
   webContents,
   desktopCapturer,
+  globalShortcut
 } = require('electron');
 const path = require('path');
 const rimraf = require('rimraf');
@@ -201,6 +202,9 @@ console.log(`Free: ${humanFileSize(os.freemem(), false)}`);
 console.log('=================================');
 
 app.on('ready', () => {
+  globalShortcut.register("Ctrl+B", () => {
+    console.log("Ctrl+B is pressed");
+  })
   console.debug("Code Reading: ready 1");
   // Detect when running from an unwritable location like a DMG image (will break updater)
   if (process.platform === 'darwin') {

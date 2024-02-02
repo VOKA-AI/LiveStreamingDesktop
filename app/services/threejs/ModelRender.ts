@@ -10,6 +10,12 @@ var blandshape = {
  "mouse":0,
 }
 
+/*
+var blandshape = { // 头套NFT
+ "Mouth_Open":0,
+}
+*/
+
 export default class ModelRender {
   positionOriginX: number = -320;
   positionOriginY: number = 100;
@@ -32,7 +38,7 @@ export default class ModelRender {
     })
     document.addEventListener('mouseleave', e=> {
       console.log("leave");
-      remote.getCurrentWindow().minimize();
+      //remote.getCurrentWindow().minimize();
     })
     document.addEventListener('mousedown', e => {
       this.mousePressed = true;
@@ -70,10 +76,18 @@ export default class ModelRender {
            this.positionOriginX += 0.1 * this.positionScaleX;
            break;
          }
+         case "add": {
+           this.positionOriginZ += 0.01 * this.positionScaleZ;
+           break;
+         }
+         case "subtract": {
+           this.positionOriginZ -= 0.01 * this.positionScaleZ;
+           break;
+         }
         }
     })
     document.addEventListener("wheel", e => {
-      this.positionOriginZ += 0.1 * this.positionScaleZ * e.deltaY;
+      this.positionOriginZ += 0.01 * this.positionScaleZ * e.deltaY;
     })
   }
 
@@ -121,6 +135,8 @@ export default class ModelRender {
    */
   getMorphTargetMesh(model: any) {
     var mesh = model.scene.children[0].children[0];
+    // console.log(model.scene.children[1].children[0]); // 头套NFT
+    //var mesh = model.scene.children[1].children[0];
     return mesh;
   }
 }

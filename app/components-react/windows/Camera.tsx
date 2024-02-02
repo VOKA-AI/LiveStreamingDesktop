@@ -80,7 +80,7 @@ export default function CameraWindows() {
 
         const loader = new GLTFLoader();
         // TODO: 打包后，model好像会坏掉，删除重新接入model，会
-        //loader.load('media/models/Duck3.glb', function (gltf: any) {
+        //loader.load('media/models/experimental_squama_4_head.glb', function (gltf: any) {
         loader.load('https://github.com/VOKA-AI/react-face-mask/blob/main/public/Duck2.glb?raw=true', function (gltf: any) {
             meshWithMorphTarget = model_render.getMorphTargetMesh(gltf)
             mesh = gltf.scene
@@ -101,6 +101,9 @@ export default function CameraWindows() {
             //console.log(meshWithMorphTarget.morphTargetInfluences)
             //setMeshMorphTargetInfluences(meshWithMorphTarget, {'mouse':((meshWithMorphTarget.morphTargetInfluences[meshWithMorphTarget.morphTargetDictionary["mouse"]] * 10 + 1) % 10)/10})
             model_render.setMeshMorphTargetInfluences(meshWithMorphTarget, {'eye-R':1 - riggedFace.eye.r,'eye-L':1 - riggedFace.eye.l, 'eyes-_down': 0, 'mouse':riggedFace.mouth.shape.A});
+
+            // 头套NFT
+            //model_render.setMeshMorphTargetInfluences(meshWithMorphTarget, {'Mouth_Open':riggedFace.mouth.shape.A});
 
             model_render.modelUpdate(mesh, riggedFace);
             }
@@ -140,6 +143,7 @@ export default function CameraWindows() {
         const faceMesh = new FaceMesh({
               locateFile: (file) => {
                 // TODO: 不优雅的方式，问题应该处在webpack上，后期采用更优雅方式解决文件定位不到的问题
+                // 测试时将if整个block注释掉
                 if(file.split('.')[1] === 'data') {
                     return `resources/app/media/mediapipe/${file}`;
                 }

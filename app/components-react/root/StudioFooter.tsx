@@ -236,7 +236,7 @@ export default function StudioFooterComponent() {
         {/* {recordingModeEnabled && <RecordingButton />} */}
         <StartIPFSStreamingButton />
         <WalletConnectButton></WalletConnectButton>
-        <button onClick={showChatPage}>打开聊天页面</button>
+        <button onClick={showChatPage}>Open IPFS Chat Room</button>
       </div>
     </div>
   );

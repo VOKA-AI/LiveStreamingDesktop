@@ -18,6 +18,7 @@
 }
 
 .chat_list {
+  background-color: var(--background);
   height: 80%;
   overflow-y: scroll;
   overflow-x: hidden;

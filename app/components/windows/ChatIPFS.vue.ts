@@ -25,7 +25,6 @@ export default class ChatIPFS extends Vue {
         return;
       }
       this.ipfs_conn.pubsub_send("test_topic", this.$refs.message.value);
-      this.messages.push(this.$refs.message.value)
       this.$refs.message.value = ""
       setTimeout(() => {
         this.$refs.chat_list.scrollTop = this.$refs.chat_list.scrollHeight;
@@ -37,13 +36,18 @@ export default class ChatIPFS extends Vue {
         this.ipfs_conn.pubsub_sub("test_topic", (msg: String) => {
           this.messages.push(msg)
           const divHeight = this.$refs.chat_list.offsetHeight
-          console.log("scrollTop", this.$refs.chat_list.scrollTop)
-          console.log("scrollHeight", this.$refs.chat_list.scrollHeight)
           if(this.$refs.chat_list.scrollHeight - this.$refs.chat_list.scrollTop - divHeight < 300) {
               setTimeout(() => {
                 this.$refs.chat_list.scrollTop = this.$refs.chat_list.scrollHeight;
               }, 100);
           }
+        })
+        window.addEventListener('keydown', (event) => {
+          if(event.code !== 'Enter') {
+            return;
+          }
+            this.send_message();
+            this.$refs.message.value=""
         })
   }
 }

@@ -54,11 +54,17 @@ class IPFS_HTTP_CLIENT {
   // 如果文件夹中名为name的文件不存在，则直接创建
   // 如果文件夹中名为name的文件已经存在，则清空后重新写入
   async addFile(localFilePath, directory, fileName = localFilePath.split('\\').pop(), create = false, truncate = false) {
+    let content;
     try {
-        const content = fs.readFileSync(localFilePath) // binary
-        await this.client.files.write(directory + "/" + fileName, content, {create: create, truncate: truncate});
+        content = fs.readFileSync(localFilePath) // binary
     } catch(e) {
-        await this.addFile(localFilePath, directory, fileName, create, truncate);
+        // 读取文件失败
+    }
+    try {
+        await this.client.files.write(directory + "/" + fileName, content, {create: create, parents: true, truncate: truncate});
+    } catch(e) {
+        // 上传文件失败
+        //await this.addFile(localFilePath, directory, fileName, create, truncate);
         console.log("-------------------------------")
         console.log(e)
         console.log("-------------------------------")

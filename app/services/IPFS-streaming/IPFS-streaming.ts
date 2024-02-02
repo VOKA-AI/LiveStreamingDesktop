@@ -37,7 +37,7 @@ export class IPFSStreamingService extends Service {
 
     init() {
         this.update_origin_obs_settings()
-        this.hls_stream_manager = new HLSStreamFilesManager(IPFS_STREAM_TMP_DIR, "/test");
+        this.hls_stream_manager = new HLSStreamFilesManager(IPFS_STREAM_TMP_DIR, "/" + localStorage.getItem("test_address"));
     }
 
     private update_origin_obs_settings() {

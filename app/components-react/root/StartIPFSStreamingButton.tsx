@@ -5,6 +5,7 @@ import { $t } from 'services/i18n';
 import { useVuex } from '../hooks';
 import { Services } from '../service-provider';
 import * as remote from '@electron/remote';
+import serve from 'services/axios'
 
 export default function StartIPFSStreamingButton() {
   // 每次点击，StartIPFSStreamingButton()这个function好像都会被调用一边
@@ -15,7 +16,23 @@ export default function StartIPFSStreamingButton() {
     recordingStatus: StreamingService.state.recordingStatus,
   }));
 
-  function toggleRecording() {
+  async function toggleRecording() {
+    //const params = new URLSearchParams();
+    //params.append("user", "tianxu_test");
+    //params.append("password", '123456');
+    //const aaa = serve({
+      //url: "/test",
+      //method: "get",
+      //data: params
+    //})
+    //console.log(aaa)
+    //const { data: res } = await aaa; //请求到的res是一个list
+    //console.log(res)
+    //return
+    //const walletAddress = localStorage.getItem("walletAddress");
+    //if(!walletAddress) {
+      //console.log(walletAddress)
+    //}
     if(StreamingService.isRecording) {
       IPFSStreamingService.actions.stopIPFSStreaming();
     } else {

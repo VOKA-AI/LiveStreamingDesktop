@@ -5,6 +5,8 @@ import {
     walletConnectProvider,
 } from "@web3modal/ethereum";
 import { Web3Modal, useWeb3Modal, Web3Button, useWeb3ModalTheme} from "@web3modal/react";
+import SignClient from "@walletconnect/sign-client"
+import { Web3Modal as Web3Modal2} from '@web3modal/standalone';
 
 import { configureChains, createClient, WagmiConfig, useAccount, useNetwork } from "wagmi";
 import { arbitrum, mainnet, polygon } from "@wagmi/chains";
@@ -76,7 +78,14 @@ export default function WalletConnectButton() {
       // else show OBS Display
       WindowsService.actions.updateStyleBlockers('main', false);
     }
-  },[isConnecting ,isOpen, isConnected, address]);
+    if(address != undefined) {
+      localStorage.setItem('walletAddress', address);
+    }
+    if(isDisconnected) {
+      // 断开连接时，清空地址
+      localStorage.setItem('walletAddress', "");
+    }
+  },[isConnecting ,isOpen, isConnected, isDisconnected ,address]);
 
   function openConnectPanel() {
     open({route: 'ConnectWallet'});
@@ -86,7 +95,63 @@ export default function WalletConnectButton() {
     open({route: 'Account'});
   }
 
-  function connectButtonClicked() {
+  async function connectButtonClicked() {
+    const client2 = await SignClient.init({
+      projectId: projectId
+    });
+    console.log(client2)
+
+    try {
+  const { uri, approval } = await client2.connect({
+    // Optionally: pass a known prior pairing (e.g. from `signClient.core.pairing.getPairings()`) to skip the `uri` step.
+    // Provide the namespaces and chains (e.g. `eip155` for EVM-based chains) we want to use in this session.
+    requiredNamespaces: {
+      eip155: {
+        methods: [
+          "eth_sendTransaction",
+          "eth_signTransaction",
+          "eth_sign",
+          "personal_sign",
+          "eth_signTypedData",
+        ],
+        chains: ["eip155:1"],
+        events: ["chainChanged", "accountsChanged"],
+      },
+    },
+  });
+  console.log(uri)
+  const web3Modal2 = new Web3Modal2({
+    walletConnectVersion: 2,
+    projectId: projectId,
+    standaloneChains: ["eip155:1"],
+  });
+  return;
+  if (uri) {
+    web3Modal2.openModal({ uri });
+    // Await session approval from the wallet.
+    const session = await approval();
+    // Handle the returned session (e.g. update UI to "connected" state).
+    // * You will need to create this function *
+    console.log(session);
+    // Close the QRCode modal in case it was open.
+  const result = await client2.request({
+  topic: session.topic,
+  chainId: "eip155:1",
+  request: {
+    method: "personal_sign",
+    params: [
+      "0x1d85568eEAbad713fBB5293B45ea066e552A90De",
+      "0x7468697320697320612074657374206d65737361676520746f206265207369676e6564",
+    ],
+  },
+});
+    web3Modal2.closeModal();
+  }
+} catch (e) {
+  console.error(e);
+}
+
+    localStorage.setItem("test_address", "0x11111111")
     if(isConnected && address != undefined) {
       alert("connected! if status is error, reopen the app please!")
     }
