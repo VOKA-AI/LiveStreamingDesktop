@@ -55,6 +55,39 @@ Install all node modules via yarn:
 yarn install
 ```
 
+PS: Here may occurr some error like:
+
+1. slobs-client build error: change node vertion to v16.18.1
+2. electron install/build error: 
+    > 操作步骤
+    > 
+    > 步骤1-通过yarn 或者 npm安装 electron
+    > 
+    >    `yarn add electron@8.0.0`
+    > 
+    > 这个目的不是为了安装成功（能成功后面的步骤就不用看了），而是生成目录结构和基础文件。如 electron 目录、index.js 等
+    > 
+    > 步骤2-下载 electron 压缩包
+    > 
+    > 首先找到 electron github 上发布的包地址。如windows 64位环境可用这个模板地址：
+    > 
+    > https://github.com/electron/electron/releases/download/v版本号/electron-v版本号-win32-x64.zip，那么对应的 v8.0.0 版本地址就是：
+    > 
+    > https://github.com/electron/electron/releases/download/v8.0.0/electron-v8.0.0-win32-x64.zip
+    > 
+    > 浏览器地址栏输入地址即可下载压缩文件
+    > 
+    > 步骤3- */node_modules/electron/ 目录下创建dist 目录
+    > 
+    >  在*/node_modules/electron/ 目录下创建dist 目录，然后将上一步下载的文件解压到 dist 目录中
+    > 
+    > 步骤4-创建 path.txt 文件
+    > 
+    > 创建 path.txt 文件，并写入文本内容为：electron.exe
+    > 
+    > 再次执行`yarn install`
+
+
 Then, compile assets with webpack:
 
 ```
