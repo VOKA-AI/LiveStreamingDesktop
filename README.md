@@ -108,6 +108,11 @@ You can start the app by running:
 yarn start
 ```
 
+### 注意
+
+- 如果`yarn start`运行后，头套没有正常运行，可能是因为`component-react/windows/Camera.tsx`的`useEffect`中，需要注释掉if区块。
+- 如果注释掉还是无法正常运行，可能是`media/mediapipe`中的内容出错了，可以从`node_modules`中复制最新的（通过yarn add下载最新的）
+
 ## Environment Variables
 
 These variables can be used in development to force certain behavior.
